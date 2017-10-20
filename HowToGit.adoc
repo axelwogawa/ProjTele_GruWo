@@ -1,0 +1,8 @@
+=Tiny *GITHUB* HowTo
+
+- create directory on your computer, where you want to store your local copy of 
+the project
+- open a terminal (if not done yet)
+- *cd* to your newly created working directory
+- type *git clone [url]* and replace *[url]* with the git repository url
+- __Now you have your own local copy of the project__
