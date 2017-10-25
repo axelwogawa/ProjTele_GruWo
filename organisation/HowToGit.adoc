@@ -41,7 +41,8 @@
 - type in a short message that describes the changes that you're about to upload
  (such as `Inserted "Hello World" button to user interface`)
 - press *__Ctrl__*+*__X__* to finish message typing
-- press *__Enter__* to confirm this
+- press *__Y__* to confirm this
+- press *__Enter__* to confirm that you want to confirm
 *Tip*:: For good *Git* style, please always write a useful commit message ;-)!
 - -> now you've locally created a new project version, called __commit__
 - to upload that commit, type `git push`
