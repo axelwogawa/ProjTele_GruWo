@@ -66,3 +66,11 @@
  called __master__ branch. Only move your work to the __master__ branch, if they
  are proved to be correct and ment to remain in the project till the end of
  time!
+ 
+== Helpful *Git* configuration
+=== Username and password caching
+- to tell *Git* to remember your login credentials for a certain time, open a 
+ terminal and type `git config --global credential.helper cache`
+- to change the caching time (15 minutes by default), type `git config 
+ --global credential.helper 'cache --timeout=[timeout]'` and replace [timeout]
+ with the time you wish (in seconds)
