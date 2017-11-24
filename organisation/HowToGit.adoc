@@ -45,11 +45,14 @@
 - press *__Enter__* to confirm that you want to confirm
 *Tip*:: For good *Git* style, please always write a useful commit message ;-)!
 - -> now you've locally created a new project version, called __commit__
-- to upload that commit, type `git push`
+- before you finally upload that commit, type `git pull` (just in case some evil
+ merge conflicts occur, this way you can solve them locally on your machine
+ without the risk of messing up the online repository)
+- now you can upload the commit by typing `git push`
 - If everything worked fine (and your computer tells something like `writing 
  objects…`, *you've successfully uploaded your changes to the project!*
-- If some conflicts occured while trying to upload, see the __Solving merge
- conflicts__ section
+- If some conflicts occured while trying to download or upload, see the
+ __Solving merge conflicts__ section
 
 === Solving merge conflicts
 - to be filled with content
