@@ -1,3 +1,7 @@
+:toc:
+
+
+
 = Tiny *GitHub* HowTo
 
 
@@ -15,8 +19,37 @@
 - open a terminal and `cd` to the project root directory
 - type `git pull`
 - If everything worked fine, *you now have an up-to-date copy of the project!*
+- If some conflicts occured while trying to download, see the __Solving merge 
+ conflicts__ section
 *Tip*:: Use `git pull` each time *before* you start working to avoid evil
  merge conflicts!
+ 
+=== Solving merge conflicts
+- If after typing `git pull` the command line shouts `CONFLICT` at you, don't 
+ panic and go through the following steps
+- first of all: whenever you like, you can abort solving the merge conflict and
+ go back to the state before you typed `git pull`, just by typing `git rebase 
+ --abort`
+- to check, which files caused the conflict, type `git status`
+- -> all `unmerged paths` can be considered a conflict
+- there are multiple types of possible conflicts; to find out, which type of
+ conflict you have now, carefully read the error message again that was thrown 
+ right after you typed `git pull`
+. If the error message says something like `CONFLICT (modify/delete)`:
+* you need to decide whether to delete or to keep the files listet under 
+ `untracked paths`
+* if you want to keep them, type `git add [filelist]`
+* if you want them to be deleted, type `git rm [filelist]`
+* type `git status` to see, if you treated all conflicts
+. If the error message says something like `CONFLICT (…)`
+* __tbc__
+- if there are any more files marked as `unstaged`, add them or check them out 
+ accordingly
+- as soon as `git status` doesn't show any more unstaged or unmerged files, you
+ can finish that adventure by typing `git rebase --continue`
+- if everything workes fine, the command line will say something like `…` which
+ means that *you successfully solved your merge conflict!!!*
+
 
 == Upload 
 === Checking the status of your local project copy
@@ -54,8 +87,66 @@
 - If some conflicts occured while trying to download or upload, see the
  __Solving merge conflicts__ section
 
-=== Solving merge conflicts
-- to be filled with content
+
+== Undoing changes
+=== Switching to a recent commit while keeping commit history as is
+- if you just want to see (read) a recent state of the project while keeping 
+ all the commit history (including your latest commit) as it is, you first need
+ to determine the id of the commit, that you want to skip back to
+- open a terminal and `cd` to a project directory
+- to show the latest commits including their commit messages and timestamps, 
+ type `git log` (the command `git log` takes a million different options, if you 
+ need more information about the commits or prefer a prettier printing style –
+ see the `git log` documentation for details)
+- the long string after the keyword `commit` is the commit-id (something like 
+ `64ded9ab77364baf2ecae7872698c48196bd9ec2`)
+- -> copy the commit-id you want to skip back to
+- close the log by typing `q`
+- type `git checkout [commit-id]`
+- if you're done checking out that commit and want to go back to the most recent
+ state, type `git checkout`
+*Note*:: This is a read-only action. All the changes you made until the latest
+ commit will keep living. In the old commit you can play around as much as you 
+ like (including copying stuff). All the changes you make in the intermediate 
+ old state will be discarded by the ultimate checkout.
+
+=== Undoing your latest commit completely
+- if you want to undo a complete commit, that you just made on your own machine,
+ open a terminal and `cd` to a project directory
+- if you're currently not on the branch you made your latest commit to, type 
+ `git checkout [branchname]` and replace `[branchname]` with the name of the 
+ branch you want to switch to
+- to create a new commit, that undoes the changes made by the latest commit, 
+ type `git revert HEAD`
+- if you had already uploaded the faulty commit, you can get the online
+ repository clean simlpy by `git push`ing the new state as usual
+
+=== Resetting a single file to a recent state
+. If you want to reset a file to the state it had some commits before, you first
+ need to determine the id of the commit, that brought the file to state that you
+ want it to have now
+* open a terminal and `cd` to a project directory
+* to show the latest commits including their commit messages and timestamps, 
+ type `git log` (the command `git log` takes a million different options, if you 
+ need more information about the commits or prefer a prettier printing style –
+ see the `git log` documentation for details)
+* the long string after the keyword `commit` is the commit-id (something like 
+ `64ded9ab77364baf2ecae7872698c48196bd9ec2`)
+* -> copy the commit-id you want to reset your file to
+* close the log by typing `q`
+* to reset the file, type `git checkout [commit-id] [file]`
+* -> the file is now being reset to that state and needs to be staged and 
+ committed to add it to a new commit 
+*Note*:: This means that the reset itself is an action that can be reverted, at
+ least to any commit before the reset; uncommitted changes will yet be 
+ unrecoverably lost.
+. If you just want to discard the changes you made to a file since the last
+ commit:
+* open a terminal and `cd` to a project directory
+* type `git checkout [file]`
+*Note*:: All uncommitted changes will unrecoverably be lost.
+
+
 
 == Project structure
 === Creating and switching branches
