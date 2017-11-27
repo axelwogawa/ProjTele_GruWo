@@ -1,0 +1,67 @@
+:sectnums: 
+:sectnumlevels: 2
+:toc:
+:toc-title: Inhaltsverzeichnis
+
+
+
+= Lastenheft
+
+== Projektdaten
+
+*Projektname:* Handschrifterkennung
+
+*Kontext:* 	Lastenheft zum __Projekt Teleautomation__ des Moduls 
+ __Internet in der Automatisierung__ der TU Dresden WS 2017/18, Gruppe 
+ Grütze-Wogawa
+
+*Version dieses Dokuments:* 0.1
+
+*Status dieses Dokuments:*  in Bearbeitung
+
+*Stand dieses Dokuments:*   08.11.2017
+
+
+
+
+== Zusammenfassung
+Dieses Dokument ist das informelle Lastenheft für das __Projekt Teleautomation__
+des Moduls __Internet in der Automatisierung__ der TU Dresden im WS 2017/18. Es 
+enthält die Beschreibung der Aufgabe sowie die angestrebten Lösungswege.
+
+
+
+== Aufgabenstellung
+Bedien- und Beobachtungssysteme in der Automatisierung erfordern u.U. das Notieren von Beobachtungen durch die Anlagenbediener. Wegen der notwendigen Flexibilität ist hierfür oftmals die Eingabe von handschriftlichem Freitext sinnvoll. Die Ablage im Prozessleitsystem sollte jedoch in einem definierten Textformat erfolgen.
+
+Im Projekt soll daher zunächst eine Literaturübersicht über eine Auswahl frei verfügbarer auf Android basierender Frameworks oder Bibliotheken erstellt werden, die zur Handschriftenerkennung genutzt werden können. Für eine auszuwählende Realisierung soll anschließend eine Bedienoberfläche für ein Tablet entwickelt, getestet und bewertet werden. Kriterien für die Auswertung sind z.B. die Handhabung, Erkennungsrate, notwendige Schriftgröße sowie der mögliche Textumfang. 
+
+
+
+== Muss-Kriterien
+. Zusammenstellung einer Auswahl frei verfügbarer Android-Frameworks für 
+ Handschrifterkennung
+.. Frameworks auflisten
+.. Analyse der Kriterien:
+... Stärken/Schwächen
+... zugrunde liegende Konzepte/Techniken
+... Funktionsweise
+... Schnittstellen
+... Eignung für Einsatz in der Automatisierungstechnik
+.. Auswahl eines Frameworks
+. Erstellen einer Android-Bedienoberfläche für die Handschrifterkennungs-App
+. Erstellung eines Backends zur Handschrifterkennung und Ablage des erfassten
+ Textes (XML-Format?)
+. Test und Bewertung der Anwendung 
+. Dokumentation
+
+
+
+== Kann-Kriterien
+. Analyse des Framework-Kriteruims: Best Practises, Design-Guidelines
+. Herstellen einer Kommunikation zur Versuchsanlage, Implementierung einer 
+ Beispielanwendung, z.B.:
+.. handschriftliche Eingabe von Steuerbefehlen unter Verwendung der in der 
+ Lehrveranstaltung erstellten GUI
+.. Authentifizierung des Bedieners durch Handschrift 
+
