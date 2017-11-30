@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Handschrifterkennung</string>
+    <string name="title_activity_memo">Notizen</string>
 </resources>

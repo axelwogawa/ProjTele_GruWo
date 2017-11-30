@@ -23,12 +23,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private ListView listView;
-    private String[] eintraege = new String[] {"Eintrag 1", "Eintrag 2", "Eintrag 3"};
+    private ListView listViewLastItem;
+    ArrayList<String> arrayListLastItem = new ArrayList<String>();
+    //ArrayAdapter deklarieren -> initialisiert wird später (line 115)
+    ArrayAdapter<String> adapterLastItem = null;
 
-    String eintrag1 = eintraege[0];
-    String eintrag2 = eintraege[1];
-    String eintrag3 = eintraege[2];
+    private ListView listViewOffer;
+    ArrayList<String> arrayListOffer = new ArrayList<>();
+    ArrayAdapter adapterOffer = null;
 
     //request code
     final int REQUEST_SETUP_BT_CONNECTION = 1;
@@ -82,15 +84,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 TextView view = (TextView) findViewById(R.id.textViewValue);
                 view.setText(text.getText());
 
-                //insert in aray to show in list
-                eintraege[2] = eintraege[1];
-                eintraege[1] = eintraege[0];
-                eintraege[0] = text.getText().toString();
+                //insert in array to show in list
+                arrayListLastItem.add(0, String.valueOf(text.getText()));
+                //letztes Element aus der ArrayList entfernen (damit die Anzeige schöner ist)
+                //Nachteil: nicht alle Elemente werden für immer gespeichert, sondern nur die letzten vier
+                //arrayListLastItem.remove(arrayListLastItem.size() -1);
 
-                listView = (ListView) findViewById(R.id.listView);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_list_item_1, eintraege);
-                listView.setAdapter(adapter);
-                listView.setOnItemClickListener(this);
+                //update text in adapter's items
+                adapterLastItem.notifyDataSetChanged();
 
                 //clear EditText and delete the insert
                 text.setText("");
@@ -107,18 +108,32 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
 
+        //arrayListLastItem 12 Elemente hinzufügen
+        for(int i=0; i<=11; i++){
+            arrayListLastItem.add("Eintrag " + (i+1));
+        }
 
         //Referenz auf die View besorgen
-        listView = (ListView) findViewById(R.id.listView);
+        listViewLastItem = (ListView) findViewById(R.id.listViewLastItem);
+        adapterLastItem = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListLastItem);
+        listViewLastItem.setAdapter(adapterLastItem);
+        listViewLastItem.setOnItemClickListener(this);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, eintraege);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
+        //add elements to arraylistoffer
+        for(int i= 0; i<3; i++){
+            arrayListOffer.add("Vorschlag " + (i+1));
+        }
+
+        //reference to view
+        listViewOffer = (ListView) findViewById(R.id.listViewOffer);
+        adapterOffer = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListOffer);
+        listViewOffer.setAdapter(adapterOffer);
+        //listViewOffer.setOnItemClickListener(this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> lV, View view, int pos, long id){
-        Toast.makeText(this, "Eintraege " + eintraege[pos] + " ausgewählt",
+        Toast.makeText(this, "Eintrag " + arrayListLastItem.get(pos) + " ausgewählt",
         Toast.LENGTH_SHORT).show();
     }
 

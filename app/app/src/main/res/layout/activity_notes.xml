@@ -7,12 +7,12 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ButtonBackNotes"
+        android:layout_below="@+id/buttonBackNotes"
         android:layout_marginLeft="155dp"
         android:layout_marginStart="155dp"
         android:layout_marginTop="369dp"
         android:layout_toEndOf="@+id/buttonBackNotes"
-        android:layout_toRightOf="@+id/ButtonBackNotes"
+        android:layout_toRightOf="@+id/uttonBackNotes"
         android:text="hier ist Platz für Notizen" />
 
     <Button
@@ -25,6 +25,34 @@
         android:layout_marginLeft="54dp"
         android:layout_marginStart="54dp"
         android:layout_marginTop="25dp"
-        android:text="Back" />
+        android:text="Zurück" />
+
+    <ToggleButton
+        android:id="@+id/toggleInsertNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonBackNotes"
+        android:layout_marginLeft="35dp"
+        android:layout_marginStart="35dp"
+        android:onClick="onToggleClicked"
+        android:layout_toEndOf="@+id/buttonBackNotes"
+        android:layout_toRightOf="@+id/buttonBackNotes"
+
+        android:text="Eingabe"
+        android:textOff="Eingabe"
+        android:textOn="Eingabe"/>
+
+    <ToggleButton
+        android:id="@+id/toggleMemoNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/toggleInsertNotes"
+        android:layout_toEndOf="@+id/toggleInsertNotes"
+        android:layout_toRightOf="@+id/toggleInsertNotes"
+        android:onClick="onToggleClicked"
+
+        android:text="Notizen"
+        android:textOff="Notizen"
+        android:textOn="Notizen" />
 
 </RelativeLayout>
