@@ -1,6 +1,8 @@
 package de.gruwo.handschrifterkennung;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,12 +19,26 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
+import com.myscript.atk.sltw.SingleLineWidget;
+import com.myscript.atk.sltw.SingleLineWidgetApi;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+import de.gruwo.handschrifterkennung.business.hwr.EditedText;
+import de.gruwo.handschrifterkennung.certificate.MyCertificate;
 
+
+
+public class MainActivity
+    extends AppCompatActivity
+    implements AdapterView.OnItemClickListener,
+        SingleLineWidgetApi.OnConfiguredListener,
+        SingleLineWidgetApi.OnTextChangedListener
+    {
+
+    //TODO: make attributes public or private
     private ListView listViewLastItem;
     ArrayList<String> arrayListLastItem = new ArrayList<String>();
     //ArrayAdapter deklarieren -> initialisiert wird später (line 115)
@@ -32,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ArrayList<String> arrayListOffer = new ArrayList<>();
     ArrayAdapter adapterOffer = null;
 
+    private SingleLineWidgetApi widget;
+
+    private EditedText editedText;
+
     //request code
     final int REQUEST_SETUP_BT_CONNECTION = 1;
 
@@ -40,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.editedText = new EditedText();
 
         //toggle button allows user to set mode of the NXT device
         final ToggleButton toggleButton = (ToggleButton) findViewById(R.id.toggleInsert);
@@ -80,12 +101,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         inheritButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 //read EditText and insert the value in the TextView
-                EditText text = (EditText) findViewById(R.id.editTextInsert);
+                //(EditText) findViewById(R.id.editTextInsert);
                 TextView view = (TextView) findViewById(R.id.textViewValue);
-                view.setText(text.getText());
+                view.setText(editedText.getText());
 
                 //insert in array to show in list
-                arrayListLastItem.add(0, String.valueOf(text.getText()));
+                arrayListLastItem.add(0, String.valueOf(editedText.getText()));
                 //letztes Element aus der ArrayList entfernen (damit die Anzeige schöner ist)
                 //Nachteil: nicht alle Elemente werden für immer gespeichert, sondern nur die letzten vier
                 //arrayListLastItem.remove(arrayListLastItem.size() -1);
@@ -94,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 adapterLastItem.notifyDataSetChanged();
 
                 //clear EditText and delete the insert
-                text.setText("");
+                editedText.clearText();
             }
         });
 
@@ -129,6 +150,45 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         adapterOffer = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListOffer);
         listViewOffer.setAdapter(adapterOffer);
         //listViewOffer.setOnItemClickListener(this);
+
+        //the following code was taken from MyScript Single Line Text Widged documentation
+        //url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
+        //CITATION_START
+        widget = (SingleLineWidget) findViewById(R.id.singleLine_widget);
+        if (!widget.registerCertificate(MyCertificate.getBytes()))
+        {
+            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
+            dlgAlert.setMessage("Please use a valid certificate.");
+            dlgAlert.setTitle("Invalid certificate");
+            dlgAlert.setCancelable(false);
+            dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    //dismiss the dialog
+                }
+            });
+            dlgAlert.create().show();
+            return;
+        }
+
+        widget.setOnConfiguredListener(this);
+        widget.setOnTextChangedListener(this);
+
+        // references assets directly from the APK to avoid extraction in application
+        // file system
+        //TODO: check, if path makes sense
+        widget.addSearchDir("zip://" + getPackageCodePath() + "!/assets/conf");
+
+        // The configuration is an asynchronous operation. Callbacks are provided to
+        // monitor the beginning and end of the configuration process and update the UI
+        // of the input method accordingly.
+        //
+        //TODO: switch language to German, check for further configurations
+        // "en_US" references the en_US bundle name in conf/en_US.conf file in your assets.
+        // "cur_text" references the configuration name in en_US.conf
+        widget.configure("de_DE", "cur_text");
+        //CITATION_END
     }
 
     @Override
@@ -140,5 +200,52 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    /**
+     * This method was copied from MyScript Single Line Text Widged documentation;
+     * url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
+     */
+    @Override
+    protected void onDestroy()
+    {
+        widget.setOnTextChangedListener(null);
+        widget.setOnConfiguredListener(null);
+
+        super.onDestroy();
+    }
+
+    /**
+     * This method was copied from MyScript Single Line Text Widged documentation;
+     * url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
+     */
+    @Override
+    public void onConfigured(SingleLineWidgetApi widget, boolean success)
+    {
+        if(!success)
+        {
+            Toast.makeText(getApplicationContext(), widget.getErrorString(), Toast.LENGTH_LONG).show();
+            //Log.e(TAG, "Unable to configure the Single Line Widget: " + widget.getErrorString());
+            return;
+        }
+        Toast.makeText(getApplicationContext(), "Single Line Widget Configured", Toast.LENGTH_SHORT).show();
+        if(BuildConfig.DEBUG)
+            ;//Log.d(TAG, "Single Line Widget configured!");
+    }
+
+    /**
+     * This method was copied from MyScript Single Line Text Widged documentation;
+     * url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
+     */
+    @Override
+    public void onTextChanged(SingleLineWidgetApi widget, String s, boolean intermediate)
+    {
+        Toast.makeText(getApplicationContext(), "Recognition update: "+s, Toast.LENGTH_SHORT).show();
+        if(BuildConfig.DEBUG)
+        {
+            //Log.d(TAG, "Single Line Widget recognition: " + widget.getText());
+        }
+        this.editedText.setText(s);
+        this.editedText.setIntermediate(intermediate);
     }
 }

@@ -18,6 +18,13 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        // Location of myScript `libs` directory containing `*.aar` files.
+        dirs '../../libs'
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -25,4 +32,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    //myScript dependencies
+
+    //myScript Single Line Tet Widget
+    //copied from https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
+    compile(name: 'MyScript_ATK-Core-android-component', ext: 'aar')
+    compile(name: 'MyScript_ATK-Text-android-component', ext: 'aar')
+    compile(name: 'MyScript_ATK-IMCommon-android-component', ext: 'aar')
+    compile(name: 'MyScript_ATK-SingleLineWidget-android-widget', ext: 'aar')
 }

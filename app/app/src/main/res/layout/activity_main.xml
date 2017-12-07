@@ -46,7 +46,7 @@
         android:layout_marginStart="17dp"
         android:text="Vorschläge:" />
 
-    <EditText
+   <!-- <EditText
         android:id="@+id/editTextInsert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,27 +58,46 @@
         android:layout_marginStart="34dp"
         android:ems="10"
         android:hint="Text eingeben..."
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName" />-->
+
+    <!-- The following element was taken from MyScript Single Line Text Widged documentation;
+    url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
+    TODO: fit size, alignment-->
+    <com.myscript.atk.sltw.SingleLineWidget
+        android:id="@+id/singleLine_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/textViewOffer"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@id/buttonBack"
+        android:layout_marginBottom="62dp"
+        android:layout_marginLeft="34dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginRight="34dp"
+        android:ems="10"
+        android:hint="Text eingeben..." />
 
     <Button
         android:id="@+id/buttonInherit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/editTextInsert"
-        android:layout_alignBottom="@+id/editTextInsert"
+        android:layout_alignBaseline="@+id/singleLine_widget"
+        android:layout_alignBottom="@+id/singleLine_widget"
         android:layout_alignEnd="@+id/listViewOffer"
         android:layout_alignRight="@+id/listViewOffer"
         android:layout_marginEnd="89dp"
         android:layout_marginRight="89dp"
         android:text="übernehmen" />
+    <!--"@+id/editTextInsert"-->
 
     <TextView
         android:id="@+id/textViewValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/editTextInsert"
-        android:layout_alignLeft="@+id/editTextInsert"
-        android:layout_alignStart="@+id/editTextInsert"
+        android:layout_above="@+id/singleLine_widget"
+        android:layout_alignLeft="@+id/singleLine_widget"
+        android:layout_alignStart="@+id/singleLine_widget"
         android:layout_marginBottom="110dp"
         android:text="TextView" />
 
@@ -97,8 +116,8 @@
         android:id="@+id/toggleInsert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/editTextInsert"
-        android:layout_alignRight="@+id/editTextInsert"
+        android:layout_alignEnd="@+id/singleLine_widget"
+        android:layout_alignRight="@+id/singleLine_widget"
         android:layout_alignTop="@+id/buttonBack"
         android:enabled="false"
         android:text="Eingabe"

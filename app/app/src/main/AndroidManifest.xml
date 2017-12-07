@@ -2,9 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.gruwo.handschrifterkennung">
 
+    <!--enables online MyScript certificate check;
+    application needs to get internet access within a grace perion of 30 days after the first
+    launch; if no internet connection is granted within that time, the app won't work any longer-->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

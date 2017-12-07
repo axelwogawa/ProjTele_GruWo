@@ -104,7 +104,8 @@
 - close the log by typing `q`
 - type `git checkout [commit-id]`
 - if you're done checking out that commit and want to go back to the most recent
- state, type `git checkout`
+ state, type `git checkout [branchname]` and replace `[branchname]` with the 
+ name of the branch to whose head you want to return
 *Note*:: This is a read-only action. All the changes you made until the latest
  commit will keep living. In the old commit you can play around as much as you 
  like (including copying stuff). All the changes you make in the intermediate 
