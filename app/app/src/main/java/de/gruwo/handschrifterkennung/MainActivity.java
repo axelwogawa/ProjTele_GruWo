@@ -2,6 +2,7 @@ package de.gruwo.handschrifterkennung;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -109,7 +110,7 @@ public class MainActivity
                 arrayListLastItem.add(0, String.valueOf(editedText.getText()));
                 //letztes Element aus der ArrayList entfernen (damit die Anzeige schöner ist)
                 //Nachteil: nicht alle Elemente werden für immer gespeichert, sondern nur die letzten vier
-                //arrayListLastItem.remove(arrayListLastItem.size() -1);
+                arrayListLastItem.remove(arrayListLastItem.size() -1);
 
                 //update text in adapter's items
                 adapterLastItem.notifyDataSetChanged();
@@ -136,7 +137,21 @@ public class MainActivity
 
         //Referenz auf die View besorgen
         listViewLastItem = (ListView) findViewById(R.id.listViewLastItem);
-        adapterLastItem = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListLastItem);
+        adapterLastItem = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayListLastItem){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
+
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+                /*YOUR CHOICE OF COLOR*/
+                textView.setTextColor(Color.LTGRAY);
+
+                return view;
+            }
+        };
+
+        /*SET THE ADAPTER TO LISTVIEW*/
         listViewLastItem.setAdapter(adapterLastItem);
         listViewLastItem.setOnItemClickListener(this);
 

@@ -12,7 +12,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="829dp"
         android:layout_marginStart="829dp"
-        android:layout_marginTop="50dp" />
+        android:layout_below="@+id/textViewLastItem"/>
 
     <TextView
         android:id="@+id/textViewLastItem"
@@ -21,7 +21,9 @@
         android:layout_alignLeft="@+id/listViewLastItem"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/listViewLastItem"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/grey1"
+        android:textStyle="bold"
         android:text="zuletzt verwendet:" />
 
     <ListView
@@ -32,7 +34,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginRight="200dp"
-        android:layout_marginTop="450dp" />
+        android:layout_marginTop="480dp" />
 
     <TextView
         android:id="@+id/textViewOffer"
@@ -41,9 +43,11 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="197dp"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp"
+        android:layout_marginBottom="160dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_above="@+id/listViewOffer"
+        android:textStyle="bold"
         android:text="Vorschläge:" />
 
    <!-- <EditText
@@ -65,7 +69,7 @@
     TODO: fit size, alignment-->
     <com.myscript.atk.sltw.SingleLineWidget
         android:id="@+id/singleLine_widget"
-        android:layout_width="match_parent"
+        android:layout_width="700dp"
         android:layout_height="match_parent"
         android:layout_above="@+id/textViewOffer"
         android:layout_gravity="center_horizontal"
@@ -89,7 +93,7 @@
         android:layout_marginEnd="89dp"
         android:layout_marginRight="89dp"
         android:text="übernehmen" />
-    <!--"@+id/editTextInsert"-->
+
 
     <TextView
         android:id="@+id/textViewValue"
@@ -116,9 +120,11 @@
         android:id="@+id/toggleInsert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/singleLine_widget"
-        android:layout_alignRight="@+id/singleLine_widget"
-        android:layout_alignTop="@+id/buttonBack"
+        android:layout_above="@+id/singleLine_widget"
+        android:layout_marginLeft="36dp"
+        android:layout_marginStart="36dp"
+        android:layout_toEndOf="@+id/buttonBack"
+        android:layout_toRightOf="@+id/buttonBack"
         android:enabled="false"
         android:text="Eingabe"
         android:textOff="Eingabe"
