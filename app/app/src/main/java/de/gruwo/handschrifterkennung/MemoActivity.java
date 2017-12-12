@@ -33,7 +33,7 @@ public class MemoActivity extends AppCompatActivity{
         });
 
         //toggle button allows user to set mode of the NXT device
-        final ToggleButton toggleInsertNotes = (ToggleButton) findViewById(R.id.toggleInsertNotes);
+        final Button toggleInsertNotes = (Button) findViewById(R.id.toggleInsertNotes);
         //disable button initially
         toggleInsertNotes.setEnabled(true);
         //on click change mode
@@ -49,7 +49,7 @@ public class MemoActivity extends AppCompatActivity{
         });
 
         //toggle button allows user to set mode of the NXT device
-        final ToggleButton toggleMemoNotes = (ToggleButton) findViewById(R.id.toggleMemoNotes);
+        final Button toggleMemoNotes = (Button) findViewById(R.id.toggleMemoNotes);
         //disable button initially
         toggleMemoNotes.setEnabled(false);
         //on click change mode
@@ -69,9 +69,18 @@ public class MemoActivity extends AppCompatActivity{
         //on click call the BluetoothActivity to choose a listed device
         insertButtonNotes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                Intent serverIntent = new Intent(getApplicationContext(),MainActivity.class);
-                startActivityForResult(serverIntent, REQUEST_SETUP_BT_CONNECTION);
+                //neue MainActivity starten -> aber alte Daten gehen dabei verloren
+                //Intent serverIntent = new Intent(getApplicationContext(),MainActivity.class);
+                //startActivityForResult(serverIntent, REQUEST_SETUP_BT_CONNECTION);
+
+                //alte Daten bleiben erhalten
+                onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
     }
 }

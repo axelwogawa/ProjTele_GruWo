@@ -116,7 +116,7 @@
         android:layout_marginStart="13dp"
         android:text="Zurück" />
 
-    <ToggleButton
+    <Button
         android:id="@+id/toggleInsert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -126,11 +126,9 @@
         android:layout_toEndOf="@+id/buttonBack"
         android:layout_toRightOf="@+id/buttonBack"
         android:enabled="false"
-        android:text="Eingabe"
-        android:textOff="Eingabe"
-        android:textOn="Eingabe" />
+        android:text="Eingabe" />
 
-    <ToggleButton
+    <Button
         android:id="@+id/toggleMemo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -138,7 +136,5 @@
         android:layout_toEndOf="@+id/toggleInsert"
         android:layout_toRightOf="@+id/toggleInsert"
         android:enabled="true"
-        android:text="Notiizen"
-        android:textOff="Notizen"
-        android:textOn="Notizen" />
+        android:text="Notizen" />
 </RelativeLayout>

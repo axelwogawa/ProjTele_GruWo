@@ -64,7 +64,7 @@ public class MainActivity
         this.editedText = new EditedText();
 
         //toggle button allows user to set mode of the NXT device
-        final ToggleButton toggleButton = (ToggleButton) findViewById(R.id.toggleInsert);
+        final Button toggleButton = (Button) findViewById(R.id.toggleInsert);
         //disable button initially
         toggleButton.setEnabled(false);
         //on click change mode
@@ -80,7 +80,7 @@ public class MainActivity
          });
 
         //toggle button allows user to set mode of the NXT device
-        final ToggleButton toggleMemo = (ToggleButton) findViewById(R.id.toggleMemo);
+        final Button toggleMemo = (Button) findViewById(R.id.toggleMemo);
         //disable button initially
         toggleMemo.setEnabled(true);
         //on click change mode
@@ -263,4 +263,13 @@ public class MainActivity
         this.editedText.setText(s);
         this.editedText.setIntermediate(intermediate);
     }
+
+        /**
+         * handle pressing button with alert dialog if connected(non-Javadoc)
+         * @see android.app.Activity#onBackPressed()
+         */
+        @Override
+        public void onBackPressed() {
+            super.onBackPressed();
+        }
 }
