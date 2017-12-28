@@ -96,7 +96,7 @@ public class MainActivity
         });
 
 
-
+        //was passiert beim Übernehmen-Button
         final Button inheritButton = (Button) findViewById(R.id.buttonInherit);
         //on click call the BluetoothActivity to choose a listed device
         inheritButton.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +117,8 @@ public class MainActivity
 
                 //clear EditText and delete the insert
                 editedText.clearText();
+                //clear the widget (ansonsten wird der alte Text weiterhin verwendet)
+                widget.clear();
             }
         });
 
@@ -256,6 +258,11 @@ public class MainActivity
     public void onTextChanged(SingleLineWidgetApi widget, String s, boolean intermediate)
     {
         Toast.makeText(getApplicationContext(), "Recognition update: "+s, Toast.LENGTH_SHORT).show();
+
+        //Textanzeige in einem TextView in Echtzeit
+        final TextView displayText = (TextView) findViewById(R.id.textView_display);
+        displayText.setText(s);
+
         if(BuildConfig.DEBUG)
         {
             //Log.d(TAG, "Single Line Widget recognition: " + widget.getText());

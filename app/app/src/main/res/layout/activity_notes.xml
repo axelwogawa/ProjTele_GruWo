@@ -4,16 +4,17 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonBackNotes"
         android:layout_marginLeft="155dp"
         android:layout_marginStart="155dp"
-        android:layout_marginTop="369dp"
+        android:layout_marginTop="80dp"
         android:layout_toEndOf="@+id/buttonBackNotes"
         android:layout_toRightOf="@+id/buttonBackNotes"
-        android:text="hier ist Platz für Notizen" />
+        android:textSize="20sp"
+        android:hint="hier ist Platz für Notizen" />
 
     <Button
         android:id="@+id/buttonBackNotes"
@@ -46,5 +47,40 @@
         android:layout_toEndOf="@+id/toggleInsertNotes"
         android:layout_toRightOf="@+id/toggleInsertNotes"
         android:text="Notizen" />
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="800dp"
+        android:layout_marginStart="800dp"
+        android:layout_marginTop="170dp"
+        android:text="Speichern"/>
+
+    <Button
+        android:id="@+id/button_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="800dp"
+        android:layout_marginStart="800dp"
+        android:text="Löschen"/>
+
+    <!-- The following element was taken from MyScript Single Line Text Widged documentation;
+    url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
+    TODO: fit size, alignment-->
+    <com.myscript.atk.sltw.SingleLineWidget
+        android:id="@+id/singleLine_widget_notes"
+        android:layout_width="700dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@id/textView_notes"
+        android:layout_marginBottom="62dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
+        android:ems="10"
+        android:hint="Text eingeben..." />
 
 </RelativeLayout>
