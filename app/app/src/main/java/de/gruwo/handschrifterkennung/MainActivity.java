@@ -106,19 +106,24 @@ public class MainActivity
                 TextView view = (TextView) findViewById(R.id.textViewValue);
                 view.setText(editedText.getText());
 
-                //insert in array to show in list
-                arrayListLastItem.add(0, String.valueOf(editedText.getText()));
-                //letztes Element aus der ArrayList entfernen (damit die Anzeige schöner ist)
-                //Nachteil: nicht alle Elemente werden für immer gespeichert, sondern nur die letzten vier
-                arrayListLastItem.remove(arrayListLastItem.size() -1);
+                if(editedText.getText().equals("")){
+                    Toast.makeText(MainActivity.this, "Es gab keine Eingabe.", Toast.LENGTH_LONG).show();
+                }else {
 
-                //update text in adapter's items
-                adapterLastItem.notifyDataSetChanged();
+                    //insert in array to show in list
+                    arrayListLastItem.add(0, String.valueOf(editedText.getText()));
+                    //letztes Element aus der ArrayList entfernen (damit die Anzeige schöner ist)
+                    //Nachteil: nicht alle Elemente werden für immer gespeichert, sondern nur die letzten vier
+                    arrayListLastItem.remove(arrayListLastItem.size() - 1);
 
-                //clear EditText and delete the insert
-                editedText.clearText();
-                //clear the widget (ansonsten wird der alte Text weiterhin verwendet)
-                widget.clear();
+                    //update text in adapter's items
+                    adapterLastItem.notifyDataSetChanged();
+
+                    //clear EditText and delete the insert
+                    editedText.clearText();
+                    //clear the widget (ansonsten wird der alte Text weiterhin verwendet)
+                    widget.clear();
+                }
             }
         });
 

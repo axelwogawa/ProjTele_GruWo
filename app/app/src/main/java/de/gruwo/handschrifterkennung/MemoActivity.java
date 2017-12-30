@@ -58,12 +58,16 @@ public class MemoActivity extends AppCompatActivity
         //on click call the BluetoothActivity to choose a listed device
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                    Toast.makeText(MemoActivity.this, "Hier muss noch implementiert werden...", Toast.LENGTH_LONG).show();
+                Toast.makeText(MemoActivity.this, "Hier muss noch implementiert werden...", Toast.LENGTH_LONG).show();
 
-                //clear EditText and delete the insert
-                editedText.clearText();
-                //clear the widget (ansonsten wird der alte Text weiterhin verwendet)
-                widget.clear();
+                if(editedText.getText().equals("")){
+                    Toast.makeText(MemoActivity.this, "Es erfolgte keine Eingabe.", Toast.LENGTH_LONG).show();
+                }else {
+                    //clear EditText and delete the insert
+                    editedText.clearText();
+                    //clear the widget (ansonsten wird der alte Text weiterhin verwendet)
+                    widget.clear();
+                }
             }
         });
 
