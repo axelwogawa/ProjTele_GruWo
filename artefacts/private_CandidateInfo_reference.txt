@@ -1,0 +1,77 @@
+Personal CandidateInfo reference
+
+***getSelectedLabel()***
+returns the word at the index, which is the parameter of the function 
+SingleLineWidgetApi#getWordCandidates(index).
+
+
+***getLabels()***
+returns a List<String> of possible recognition candidates for the 
+/selectedLabel/
+
+
+***getStart()***
+returns the index of the /selectedLabel/'s first character within the String
+currently held by the SLTW
+
+
+***getEnd()***
+returns the index of the next character trailing /selectedLabel/ (most likely 
+a whitespace)
+
+
+***getWordIndex()***
+…
+
+
+***getSize()***
+length of the /selectedLabel/ String???
+
+
+***getLineInterval()***
+…
+
+
+***getSelectedIndex()***
+…
+
+
+***getInputLabels()***
+…
+
+
+***getCompletions()***
+returns a Collection? of ???
+
+
+***getSelectedCompletion()***
+…
+
+
+***getSelectedSource()***
+returns a String describing the file name of the lexicon currently used for 
+determining words
+
+
+***getTagId()***
+…
+
+
+***getSources()***
+returns a Collection? of available lexicon files, such as 
+"de_DE-lk-text.lite.lex" or "de_DE-lk-text.symbol"
+
+
+***getSelectedTagId()***
+…
+
+
+***interval()***
+…
+
+
+***delete()***
+deletes the current CandidateInfo object
+
+
+***
