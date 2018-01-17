@@ -1,11 +1,7 @@
 package de.gruwo.handschrifterkennung;
 
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,21 +14,12 @@ import com.myscript.atk.sltw.SingleLineWidget;
 import com.myscript.atk.sltw.SingleLineWidgetApi;
 
 import de.gruwo.handschrifterkennung.business.hwr.EditedText;
-import de.gruwo.handschrifterkennung.certificate.MyCertificate;
 
 /**
  * Created by bi on 24.11.17.
  */
 
-public class MemoActivity extends AppCompatActivity
-        implements AdapterView.OnItemClickListener,
-        SingleLineWidgetApi.OnConfiguredListener,
-        SingleLineWidgetApi.OnTextChangedListener{
-
-    private SingleLineWidgetApi widget;
-
-    private EditedText editedText;
-
+public class MemoActivity extends MySLWTActivity{
     //request code
     final int REQUEST_SETUP_BT_CONNECTION = 1;
 
@@ -132,44 +119,9 @@ public class MemoActivity extends AppCompatActivity
             }
         });
 
-        //the following code was taken from MyScript Single Line Text Widged documentation
-        //url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
-        //CITATION_START
-        widget = (SingleLineWidget) findViewById(R.id.singleLine_widget_notes);
-        if (!widget.registerCertificate(MyCertificate.getBytes()))
-        {
-            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-            dlgAlert.setMessage("Please use a valid certificate.");
-            dlgAlert.setTitle("Invalid certificate");
-            dlgAlert.setCancelable(false);
-            dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener()
-            {
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    //dismiss the dialog
-                }
-            });
-            dlgAlert.create().show();
-            return;
-        }
-
-        widget.setOnConfiguredListener(this);
-        widget.setOnTextChangedListener(this);
-
-        // references assets directly from the APK to avoid extraction in application
-        // file system
-        //TODO: check, if path makes sense
-        widget.addSearchDir("zip://" + getPackageCodePath() + "!/assets/conf");
-
-        // The configuration is an asynchronous operation. Callbacks are provided to
-        // monitor the beginning and end of the configuration process and update the UI
-        // of the input method accordingly.
-        //
-        //TODO: switch language to German, check for further configurations
-        // "en_US" references the en_US bundle name in conf/en_US.conf file in your assets.
-        // "cur_text" references the configuration name in en_US.conf
-        widget.configure("de_DE", "cur_text");
-        //CITATION_END
+        View widgetView = findViewById(R.id.singleLine_widget_notes);
+        this.widget = (SingleLineWidget) widgetView;
+        super.configureWidget(this.widget, widgetView);
     }
 
     @Override
