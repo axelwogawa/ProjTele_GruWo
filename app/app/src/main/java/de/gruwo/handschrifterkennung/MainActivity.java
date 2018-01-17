@@ -2,22 +2,16 @@ package de.gruwo.handschrifterkennung;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-<<<<<<< 3f00c118891e8be83ee0eeea68d85ea730cd7d03
 import android.graphics.Color;
-=======
-import android.content.res.Resources;
->>>>>>> Made HWR candidates available;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;

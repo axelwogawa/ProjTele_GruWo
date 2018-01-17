@@ -41,8 +41,28 @@
 * if you want to keep them, type `git add [filelist]`
 * if you want them to be deleted, type `git rm [filelist]`
 * type `git status` to see, if you treated all conflicts
-. If the error message says something like `CONFLICT (…)`
-* __tbc__
+. If the error message says something like `CONFLICT (content)`:
+* in this case the commits contain changes to the same part of one or more files
+ and git doesn't know, which change to apply and lets you decide on how to do 
+ this
+* the error message tells you, which files are affected: `Merge conflict in 
+ [path]` -> open this file 
+* the file now contains both posible versions. The affected parts are now 
+ marked in the following way:
+** the area starting with something like 
+ `<<<<<<< 3f00c118891e8be83ee0eeea68d85ea730cd7d03` (or any other commit id) 
+ on a seperate line is the version of the remote commit
+** the alternative version of your own commit starts with `=======` on a single 
+ line and ends with `>>>>>>> [commit message];` on a single line
+* now it's up to you to decide, which parts to keep and which to skip, and to 
+ make the applying changes to your file 
+*Note*:: It's totally up to you, which lines to keep and which to remove. You 
+ can either skip one of the two versions completely, pick some lines from both
+ or even add new lines.
+*Note*:: Don't forget to remove the three marking lines (see above) as soon as 
+ you're ready!
+*Note*:: There might be multiple merge conflicts within one file, so make sure
+ you catch all of them!
 - if there are any more files marked as `unstaged`, add them or check them out 
  accordingly
 - as soon as `git status` doesn't show any more unstaged or unmerged files, you
