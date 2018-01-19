@@ -9,6 +9,8 @@
 *.pdf
 *.html
 *.png
+!**/drawable*/*
+!**/mipmap*/*
 
 # Package files
 *.jar
