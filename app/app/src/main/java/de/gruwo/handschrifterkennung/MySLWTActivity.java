@@ -28,11 +28,21 @@ import de.gruwo.handschrifterkennung.certificate.MyCertificate;
 
 public class MySLWTActivity
         extends AppCompatActivity
-        implements AdapterView.OnItemClickListener,
-        SingleLineWidgetApi.OnConfiguredListener,
-        SingleLineWidgetApi.OnTextChangedListener,
-        SingleLineWidgetApi.OnSingleTapGestureListener,
-        SingleLineWidgetApi.OnPenAbortListener
+        implements AdapterView.OnItemClickListener
+        ,SingleLineWidgetApi.OnConfiguredListener
+        ,SingleLineWidgetApi.OnTextChangedListener
+        ,SingleLineWidgetApi.OnSingleTapGestureListener
+        ,SingleLineWidgetApi.OnPenAbortListener
+        ,SingleLineWidgetApi.OnSelectGestureListener
+        ,SingleLineWidgetApi.OnEraseGestureListener
+        ,SingleLineWidgetApi.OnInsertGestureListener
+        ,SingleLineWidgetApi.OnJoinGestureListener
+        ,SingleLineWidgetApi.OnLongPressGestureListener
+        ,SingleLineWidgetApi.OnOverwriteGestureListener
+        ,SingleLineWidgetApi.OnUnderlineGestureListener
+//        ,SingleLineWidgetApi.OnPenDownListener
+//        ,SingleLineWidgetApi.OnPenMoveListener
+//        ,SingleLineWidgetApi.OnPenUpListener
 {
     //TODO: make attributes public or private
     ArrayList<String> arrayListLastItem = new ArrayList<String>();
@@ -45,6 +55,13 @@ public class MySLWTActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.editedText = new EditedText();
+    }
+
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        this.configureWidget(this.widget);
     }
 
 
@@ -93,6 +110,12 @@ public class MySLWTActivity
                     widget.getErrorString());
             return;
         }
+
+        //margin setting must wait until now, because earlier the widget width is still 0.0 (due to
+        //unfinished layout process)
+        float margin = (float)(((SingleLineWidget) widget).getWidth()*0.4);
+        this.widget.setAutoScrollMargin(margin);
+
         Toast.makeText(getApplicationContext(), "Single Line Widget Configured",
                 Toast.LENGTH_SHORT).show();
         if(BuildConfig.DEBUG)
@@ -138,6 +161,8 @@ public class MySLWTActivity
     @Override
     public void onSingleTapGesture(SingleLineWidgetApi widget, int index) {
         Log.d(this.TAG, "Single tap gesture detected at index=" + index);
+        Toast.makeText(getApplicationContext(), "Single tap gesture detected at index=" +
+                    index, Toast.LENGTH_SHORT).show();
         widget.setCursorIndex(index);
 //        this.widget.selectWord();
     }
@@ -150,8 +175,65 @@ public class MySLWTActivity
      */
     @Override
     public void onPenAbort(SingleLineWidgetApi widget){
-        Log.d(this.TAG, "Pen abort gesture detected. Setting cursor to position " +
-                (widget.getText().length()-1));
+        String message = "Pen abort gesture detected";
+        Log.d(this.TAG, message);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public  void onEraseGesture(SingleLineWidgetApi w, int start, int end){
+        String message = "Erase gesture detected from index " + start + " to " + end;
+        Log.d(this.TAG, message);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public  void onUnderlineGesture(SingleLineWidgetApi w, int start, int end){
+        String message = "Underline gesture detected from index " + start + " to " + end;
+        Log.d(this.TAG, message);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public  void onSelectGesture(SingleLineWidgetApi w, int start, int end){
+        String message = "Select gesture detected from index " + start + " to " + end;
+        Log.d(this.TAG, message);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public  void onInsertGesture(SingleLineWidgetApi w, int index){
+        String message = "Insert gesture detected at index " + index;
+        Log.d(this.TAG, message);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public  void onJoinGesture(SingleLineWidgetApi w, int start, int end){
+        String message = "Join gesture detected from index " + start + " to " + end;
+        Log.d(this.TAG, message);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public  void onLongPressGesture(SingleLineWidgetApi w, int index){
+        String message = "Long press gesture detected at index " + index;
+        Log.d(this.TAG, message);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public  void onOverwriteGesture(SingleLineWidgetApi w, int start, int end){
+        String message = "Overwrite gesture detected from index " + start + " to " + end;
+        Log.d(this.TAG, message);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -271,7 +353,7 @@ public class MySLWTActivity
         super.onBackPressed();
     }
 
-    public void configureWidget(SingleLineWidgetApi widget, View widgetView){
+    public void configureWidget(SingleLineWidgetApi widget){
         //the following code was taken from MyScript Single Line Text Widged documentation
         //url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
         //CITATION_START
@@ -297,6 +379,16 @@ public class MySLWTActivity
         this.widget.setOnTextChangedListener(this);
         this.widget.setOnSingleTapGestureListener(this);
         this.widget.setOnPenAbortListener(this);
+        this.widget.setOnEraseGestureListener(this);
+        this.widget.setOnUnderlineGestureListener(this);
+        this.widget.setOnSelectGestureListener(this);
+        this.widget.setOnInsertGestureListener(this);
+        this.widget.setOnJoinGestureListener(this);
+        this.widget.setOnLongPressGestureListener(this);
+        this.widget.setOnOverwriteGestureListener(this);
+//        this.widget.setOnPenDownListener(this);
+//        this.widget.setOnPenMoveListener(this);
+//        this.widget.setOnPenUpListener(this);
 
         // references assets directly from the APK to avoid extraction in application
         // file system
@@ -315,8 +407,6 @@ public class MySLWTActivity
         this.widget.setWordCandidateListSize(3);
 
         //set appearance of the MyScript widget
-        float margin = (float)(widgetView.getWidth()*0.4);
-        this.widget.setAutoScrollMargin(margin);
         this.widget.setLeftScrollArrowResource(R.drawable.sltw_arrowleft_xml);
         this.widget.setRightScrollArrowResource(R.drawable.sltw_arrowright_xml);
         this.widget.setScrollbarResource(R.drawable.sltw_scrollbar_xml);

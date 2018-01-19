@@ -152,9 +152,7 @@ public class MainActivity extends MySLWTActivity{
         listViewOffer.setAdapter(adapterOffer);
         //listViewOffer.setOnItemClickListener(this);
 
-        View widgetView = findViewById(R.id.singleLine_widget);
-        this.widget = (SingleLineWidget) widgetView;
-        super.configureWidget(this.widget, widgetView);
+        this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget);
     }
 
 
