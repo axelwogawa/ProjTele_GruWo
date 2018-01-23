@@ -1,12 +1,16 @@
 package de.gruwo.handschrifterkennung;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,11 +48,16 @@ public class MySLWTActivity
 //        ,SingleLineWidgetApi.OnPenMoveListener
 //        ,SingleLineWidgetApi.OnPenUpListener
 {
+
     //TODO: make attributes public or private
     ArrayList<String> arrayListLastItem = new ArrayList<String>();
     protected SingleLineWidgetApi widget;
     public EditedText editedText;
     public static final String TAG = "GruWo_HWR";
+
+    private ListView listViewOffer;
+    ArrayList<String> arrayListOffer = new ArrayList<>();
+    ArrayAdapter adapterOffer = null;
 
 
     @Override
@@ -136,10 +145,40 @@ public class MySLWTActivity
         final TextView displayText = (TextView) findViewById(R.id.textView_display);
         displayText.setText(s);
 
+        //Vorschlagsliste
+
         this.editedText.setIntermediate(intermediate);
         this.editedText.setText(s);
 
         widget.setCursorIndex(widget.getText().length());
+
+
+        //Vorschlagsliste aktualisieren
+        //add elements to arraylistoffer
+        arrayListOffer = getCandidateStrings(widget);
+        Toast.makeText(this, "Größe: " + arrayListOffer.size(), Toast.LENGTH_SHORT).show();
+
+
+        //add elements to arraylistoffer
+        /*for(int i= 0; i<3; i++){
+            arrayListOffer.add("Vorschlag " + (i+1));
+        }*/
+
+
+        //reference to view
+        listViewOffer = (ListView) findViewById(R.id.listViewOffer);
+        adapterOffer = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListOffer);
+        listViewOffer.setAdapter(adapterOffer);
+        listViewOffer.setOnItemClickListener(this);
+
+        this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget);
+
+        //reference to view
+        /*listViewOffer = (ListView) findViewById(R.id.listViewOffer);
+        adapterOffer = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListOffer);
+        listViewOffer.setAdapter(adapterOffer);*/
+
+
 
         Log.i(this.TAG, "#########################################");
         Log.i(this.TAG, "Single Line Widget recognition: " + widget.getText());
@@ -253,16 +292,20 @@ public class MySLWTActivity
      * @return the list of Strings representing the most probable HWR results for the
      * current word
      */
-    public List<String> getCandidateStrings(SingleLineWidgetApi widget){
+    public ArrayList<String> getCandidateStrings(SingleLineWidgetApi widget){
         CandidateInfo candidates = this.getCurrentCandidateInfo(widget);
         String selectedLabel = candidates.getSelectedLabel();
+        ArrayList<String> arrayListLabels = new ArrayList<>();
         Log.d(TAG, "Selected Label: " + selectedLabel);
         List<String> labels = candidates.getLabels();
         Log.d(TAG, "All possible Labels: ");
         for(int i=0; i < labels.size(); i++){
             Log.d(TAG, labels.get(i));
+            arrayListLabels.add(labels.get(i));
+
         }
-        return labels;
+
+        return arrayListLabels;
     }
 
 
