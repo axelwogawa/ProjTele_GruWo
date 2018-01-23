@@ -131,43 +131,5 @@ public class MemoActivity extends MySLWTActivity{
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
-
-    /**
-     * This method was copied from MyScript Single Line Text Widged documentation;
-     * url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
-     */
-    @Override
-    public void onConfigured(SingleLineWidgetApi widget, boolean success)
-    {
-        if(!success)
-        {
-            Toast.makeText(getApplicationContext(), widget.getErrorString(), Toast.LENGTH_LONG).show();
-            //Log.e(TAG, "Unable to configure the Single Line Widget: " + widget.getErrorString());
-            return;
-        }
-        Toast.makeText(getApplicationContext(), "Single Line Widget Configured", Toast.LENGTH_SHORT).show();
-        if(BuildConfig.DEBUG)
-            ;//Log.d(TAG, "Single Line Widget configured!");
-    }
-
-    /**
-     * This method was copied from MyScript Single Line Text Widged documentation;
-     * url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
-     */
-    @Override
-    public void onTextChanged(SingleLineWidgetApi widget, String s, boolean intermediate)
-    {
-        Toast.makeText(getApplicationContext(), "Recognition update: "+s, Toast.LENGTH_SHORT).show();
-
-        //Textanzeige des eingegebenen Textes in Echtzeit ändern
-        final TextView textanzeige = (TextView) findViewById(R.id.textView_notes);
-        textanzeige.setText(s);
-
-        if(BuildConfig.DEBUG)
-        {
-            //Log.d(TAG, "Single Line Widget recognition: " + widget.getText());
-        }
-        this.editedText.setText(s);
-        this.editedText.setIntermediate(intermediate);
-    }
+    
 }
