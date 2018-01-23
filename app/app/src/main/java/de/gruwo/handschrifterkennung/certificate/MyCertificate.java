@@ -1,4 +1,6 @@
 package de.gruwo.handschrifterkennung.certificate;
+//application: de.gruwo.handschrifterkennung
+//target device: TU Dresden IAT Google Nexus 7
 
 /**
  * The <code>MyCertificate</code> class provides the bytes of the user
