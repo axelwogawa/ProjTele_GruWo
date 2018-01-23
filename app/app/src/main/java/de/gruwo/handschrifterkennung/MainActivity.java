@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,8 @@ import android.widget.ToggleButton;
 import com.myscript.atk.sltw.SingleLineWidget;
 
 import java.util.ArrayList;
+
+import de.gruwo.handschrifterkennung.business.hwr.EditedText;
 
 
 /**
@@ -42,6 +45,7 @@ public class MainActivity extends MySLWTActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         //toggle button allows user to set mode of the NXT device
         final Button toggleButton = (Button) findViewById(R.id.toggleInsert);
@@ -81,16 +85,16 @@ public class MainActivity extends MySLWTActivity{
         inheritButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 //read EditText and insert the value in the TextView
-                //(EditText) findViewById(R.id.editTextInsert);
-                TextView view = (TextView) findViewById(R.id.textViewValue);
-                view.setText(editedText.getText());
+                TextView view = (TextView) findViewById(R.id.textView_display);
 
-                if(editedText.getText().equals("")){
+
+
+                if(view.getText().equals("")){
                     Toast.makeText(MainActivity.this, "Es gab keine Eingabe.", Toast.LENGTH_LONG).show();
                 }else {
 
                     //insert in array to show in list
-                    arrayListLastItem.add(0, String.valueOf(editedText.getText()));
+                    arrayListLastItem.add(0, String.valueOf(view.getText()));
                     //letztes Element aus der ArrayList entfernen (damit die Anzeige schöner ist)
                     //Nachteil: nicht alle Elemente werden für immer gespeichert, sondern nur die letzten vier
                     arrayListLastItem.remove(arrayListLastItem.size() - 1);
@@ -99,7 +103,7 @@ public class MainActivity extends MySLWTActivity{
                     adapterLastItem.notifyDataSetChanged();
 
                     //clear EditText and delete the insert
-                    editedText.clearText();
+                    //editedText.clearText();
                     //clear the widget (ansonsten wird der alte Text weiterhin verwendet)
                     widget.clear();
                 }

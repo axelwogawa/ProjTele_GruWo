@@ -95,16 +95,6 @@
         android:text="übernehmen" />
 
 
-    <TextView
-        android:id="@+id/textViewValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/singleLine_widget"
-        android:layout_alignLeft="@+id/singleLine_widget"
-        android:layout_alignStart="@+id/singleLine_widget"
-        android:layout_marginBottom="110dp"
-        android:text="TextView" />
-
     <Button
         android:id="@+id/buttonBack"
         android:layout_width="wrap_content"

@@ -47,7 +47,7 @@ public class MySLWTActivity
     //TODO: make attributes public or private
     ArrayList<String> arrayListLastItem = new ArrayList<String>();
     protected SingleLineWidgetApi widget;
-    protected EditedText editedText;
+    public EditedText editedText;
     public static final String TAG = "GruWo_HWR";
 
 
@@ -416,5 +416,10 @@ public class MySLWTActivity
         this.widget.setWritingAreaBackgroundColor(-Integer.parseInt("ffffff", 16) +
                 Integer.parseInt("f0f0f0", 16));
         this.widget.setCursorResource(R.drawable.sltw_text_cursor_holo_light);
+    }
+
+
+    public String getString(){
+        return this.editedText.getText();
     }
 }
