@@ -141,43 +141,10 @@ public class MySLWTActivity
     @Override
     public void onTextChanged(SingleLineWidgetApi widget, String s, boolean intermediate)
     {
-        //Textanzeige in einem TextView in Echtzeit
-        final TextView displayText = (TextView) findViewById(R.id.textView_display);
-        displayText.setText(s);
-
-        //Vorschlagsliste
-
         this.editedText.setIntermediate(intermediate);
         this.editedText.setText(s);
 
         widget.setCursorIndex(widget.getText().length());
-
-
-        //Vorschlagsliste aktualisieren
-        //add elements to arraylistoffer
-        arrayListOffer = getCandidateStrings(widget);
-        Toast.makeText(this, "Größe: " + arrayListOffer.size(), Toast.LENGTH_SHORT).show();
-
-
-        //add elements to arraylistoffer
-        /*for(int i= 0; i<3; i++){
-            arrayListOffer.add("Vorschlag " + (i+1));
-        }*/
-
-
-        //reference to view
-        listViewOffer = (ListView) findViewById(R.id.listViewOffer);
-        adapterOffer = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListOffer);
-        listViewOffer.setAdapter(adapterOffer);
-        listViewOffer.setOnItemClickListener(this);
-
-        this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget);
-
-        //reference to view
-        /*listViewOffer = (ListView) findViewById(R.id.listViewOffer);
-        adapterOffer = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListOffer);
-        listViewOffer.setAdapter(adapterOffer);*/
-
 
 
         Log.i(this.TAG, "#########################################");
@@ -185,7 +152,7 @@ public class MySLWTActivity
         Log.i(this.TAG, "Passed Text: " + s);
         Log.i(this.TAG, "Intermediate: " + intermediate);
         Log.i(this.TAG, "Word List: " + Arrays.toString(this.editedText.getWordArray()));
-        Log.i(this.TAG, "Word List Size: " + this.editedText.getWordArray().length);
+        //Log.i(this.TAG, "Word List Size: " + this.editedText.getWordArray().length);
 
         Log.i(this.TAG, "Cursor Index: " + new Integer(widget.getCursorIndex()).toString());
         Log.i(this.TAG, "Selection Index: " +

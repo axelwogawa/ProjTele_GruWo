@@ -16,6 +16,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.myscript.atk.sltw.SingleLineWidget;
+import com.myscript.atk.sltw.SingleLineWidgetApi;
 
 import java.util.ArrayList;
 
@@ -84,17 +85,12 @@ public class MainActivity extends MySLWTActivity{
         //on click call the BluetoothActivity to choose a listed device
         inheritButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                //read EditText and insert the value in the TextView
-                TextView view = (TextView) findViewById(R.id.textView_display);
-
-
-
-                if(view.getText().equals("")){
+                if(editedText.getText().equals("")){
                     Toast.makeText(MainActivity.this, "Es gab keine Eingabe.", Toast.LENGTH_LONG).show();
                 }else {
 
                     //insert in array to show in list
-                    arrayListLastItem.add(0, String.valueOf(view.getText()));
+                    arrayListLastItem.add(0, String.valueOf(editedText.getText()));
                     //letztes Element aus der ArrayList entfernen (damit die Anzeige schöner ist)
                     //Nachteil: nicht alle Elemente werden für immer gespeichert, sondern nur die letzten vier
                     arrayListLastItem.remove(arrayListLastItem.size() - 1);
@@ -106,6 +102,9 @@ public class MainActivity extends MySLWTActivity{
                     //editedText.clearText();
                     //clear the widget (ansonsten wird der alte Text weiterhin verwendet)
                     widget.clear();
+
+
+                    updateListOffer();
                 }
             }
         });
@@ -145,16 +144,9 @@ public class MainActivity extends MySLWTActivity{
         listViewLastItem.setAdapter(adapterLastItem);
         listViewLastItem.setOnItemClickListener(this);
 
-        //add elements to arraylistoffer
-        for(int i= 0; i<3; i++){
-            arrayListOffer.add("Vorschlag " + (i+1));
-        }
+        updateListOffer();
 
-        //reference to view
-        listViewOffer = (ListView) findViewById(R.id.listViewOffer);
-        adapterOffer = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListOffer);
-        listViewOffer.setAdapter(adapterOffer);
-        //listViewOffer.setOnItemClickListener(this);
+
 
         this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget);
     }
@@ -162,8 +154,14 @@ public class MainActivity extends MySLWTActivity{
 
     @Override
     public void onItemClick(AdapterView<?> lV, View view, int pos, long id){
-        Toast.makeText(this, "Eintrag " + arrayListLastItem.get(pos) + " ausgewählt",
-        Toast.LENGTH_SHORT).show();
+        if(lV.getId() == R.id.listViewLastItem){
+            Toast.makeText(this,  arrayListLastItem.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+        }else if(lV.getId() == R.id.listViewOffer){
+            Toast.makeText(this,  arrayListOffer.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Keine Liste ausgewählt.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
@@ -194,4 +192,58 @@ public class MainActivity extends MySLWTActivity{
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+
+    @Override
+    public void onTextChanged(SingleLineWidgetApi widget, String s, boolean intermediate){
+        super.onTextChanged(widget, s, intermediate);
+
+        //Vorschlagsliste aktualisieren
+        //add elements to arraylistoffer
+        arrayListOffer = getCandidateStrings(widget);
+       // Toast.makeText(this, "Größe: " + arrayListOffer.size(), Toast.LENGTH_SHORT).show();
+
+
+        //reference to view
+        listViewOffer = (ListView) findViewById(R.id.listViewOffer);
+        adapterOffer = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListOffer);
+        listViewOffer.setAdapter(adapterOffer);
+        listViewOffer.setOnItemClickListener(this);
+
+        if(editedText.getText().equals("")){
+            updateListOffer();
+        }
+
+    }
+
+    private void updateListOffer(){
+        //Vorschlagsliste aktualisieren
+
+        //add elements to arraylistoffer
+        for(int i= 0; i<3; i++){
+            arrayListOffer.add("Vorschlag " + (i+1));
+        }
+
+        //Referenz auf die View besorgen
+        listViewOffer = (ListView) findViewById(R.id.listViewOffer);
+        adapterOffer = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayListOffer){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
+
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+                /*YOUR CHOICE OF COLOR*/
+                textView.setTextColor(Color.LTGRAY);
+
+                return view;
+            }
+        };
+
+
+        listViewOffer.setAdapter(adapterOffer);
+        listViewOffer.setOnItemClickListener(this);
+    }
 }
+
+
