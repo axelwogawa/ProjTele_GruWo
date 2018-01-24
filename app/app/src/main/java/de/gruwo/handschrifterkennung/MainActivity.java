@@ -119,9 +119,27 @@ public class MainActivity extends MySLWTActivity{
         });
 
 
+        final Button deleteButton = (Button) findViewById(R.id.buttonDelete);
+        //on click call the BluetoothActivity to choose a listed device
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                //TODO: Methode implementieren -> letzter Buchstabe muss entfernt werden
+            }
+        });
+
+
+        final Button clearButton = (Button) findViewById(R.id.buttonClear);
+        //on click call the BluetoothActivity to choose a listed device
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                clearContent(widget);
+            }
+        });
+
+
         //arrayListLastItem 12 Elemente hinzufügen
         for(int i=0; i<=11; i++){
-            arrayListLastItem.add("Eintrag " + (i+1));
+            arrayListLastItem.add("");
         }
 
         //Referenz auf die View besorgen
@@ -154,10 +172,23 @@ public class MainActivity extends MySLWTActivity{
 
     @Override
     public void onItemClick(AdapterView<?> lV, View view, int pos, long id){
+
+        String newWord;
+
         if(lV.getId() == R.id.listViewLastItem){
             Toast.makeText(this,  arrayListLastItem.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+
+            //change the word in the widget
+            newWord = arrayListLastItem.get(pos);
+            this.insertString(this.widget, newWord);
+
         }else if(lV.getId() == R.id.listViewOffer){
             Toast.makeText(this,  arrayListOffer.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+
+            //change the word in the widget
+            newWord = arrayListOffer.get(pos);
+            this.replaceWord(this.widget, newWord);
+
         }else{
             Toast.makeText(this, "Keine Liste ausgewählt.", Toast.LENGTH_SHORT).show();
         }
@@ -221,7 +252,7 @@ public class MainActivity extends MySLWTActivity{
 
         //add elements to arraylistoffer
         for(int i= 0; i<3; i++){
-            arrayListOffer.add("Vorschlag " + (i+1));
+            arrayListOffer.add("");
         }
 
         //Referenz auf die View besorgen

@@ -76,8 +76,7 @@ public class MySLWTActivity
 
     @Override
     public void onItemClick(AdapterView<?> lV, View view, int pos, long id){
-        Toast.makeText(this, "Eintrag " + arrayListLastItem.get(pos) + " ausgewählt",
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Eintrag " + arrayListLastItem.get(pos) + " ausgewählt", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -350,6 +349,7 @@ public class MySLWTActivity
      * @param s      the String to be inserted
      */
     public void insertString(SingleLineWidgetApi widget, String s){
+        //insert the new word
         widget.replaceCharacters(widget.getCursorIndex(), widget.getCursorIndex(), s);
     }
 

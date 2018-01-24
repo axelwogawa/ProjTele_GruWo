@@ -128,5 +128,29 @@
         android:enabled="true"
         android:text="Notizen" />
 
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/listViewOffer"
+        android:layout_alignRight="@+id/listViewOffer"
+        android:layout_marginEnd="89dp"
+        android:layout_marginRight="89dp"
+        android:layout_alignBottom="@+id/toggleInsert"
+        android:text="Del" />
+
+    <Button
+        android:id="@+id/buttonClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/buttonDelete"
+        android:layout_alignRight="@+id/buttonDelete"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_alignBottom="@+id/toggleInsert"
+        android:layout_toStartOf="@+id/buttonDelete"
+        android:layout_toLeftOf="@+id/buttonDelete"
+        android:text="Löschen" />
+
 
 </RelativeLayout>
