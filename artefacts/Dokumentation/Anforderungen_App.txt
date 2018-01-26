@@ -1,0 +1,17 @@
+==== Anforderungen an die Applikation ====
+
+Bevor die Applikation erstellt werden kann, muss festgehalten werden, welche Funktionalitäten die Anwendung bereitstellen muss bzw. sollte. Außerdem ergeben sich aus der Aufgabenstellung und allgemeinen Überlegungen Anforderungen an die Handhabbarkeit der Applikation und die allgemeine User Experience. Dieser letzte Anforderungs-Block dient hauptsächlich dazu, die entstandene Anwendung zu beurteilen.
+
+=== Funktionale Anforderungen ===
+  * **<fc #ff0000>AF1</fc> Eingabe von handschriftlichem Text**. Die Grundanforderung ist die Eingabe und Digitalisierung von handschriftlichen Werten und Notizen.
+  * **<fc #ff0000>AF2</fc> Textbearbeitung**. Der einmal eingegebene Text muss nachträglich bearbeitbar sein, um z.B. Erkennungsfehler zu korrigieren oder weitere Gedanken einzufügen.
+  * **<fc #ff0000>AF3</fc> Abspeichern des Textes.** Der digitalisierte Text soll lt. Aufgabenstellung //"in einem definierten Textformat"// abgespeichert werden können.
+  * **<fc #ff0000>AF4</fc> Übergabe von Text an eine andere Applikation**. Zum Bedienen ist es notwendig, dass die Eingabe (z.B. als Befehl oder Sollwert) an eine andere Applikation (z.B. die Bedienoberfläche des Prozessleitsystems) übergeben werden kann. Eine entsprechende Schnittstelle muss zur Verfügung stehen.
+  * **<fc #808080>AF5</fc> Auswahl des Textumfanges**. Der Übersichtlichkeit halber ist es sinnvoll, zwischen einem Befehlseingabe- und einem Notizen-Modus wechseln zu können, um dem Benutzer entsprechend des unterschiedlichen zu erwartenden Textumfanges verschiedene Oberflächen und Optionen anzubieten.
+
+=== Anforderungen an Handhabbarkeit und User Experience ===
+  * **<fc #ff0000>AH1</fc> Einfaches und übersichtliches Design**. 
+  * **<fc #ff0000>AH2</fc> Intuitive Bedienung**. Die ersten beiden Anforderungen sind vom Bewertungskriterium //"Handhabung"// aus der Aufgabenstellung abgeleitet.
+  * **<fc #808080>AH3</fc> Keine störenden Verzögerungen durch HWR-Prozess**. Da die HWR aufwendige Berechnung bei jeder neuen Eingabe erfordert, können dadurch Verzögerungen entstehen (z.B. vor Aktualisierung der Anzeige mit neuestem Erkennungsergebnis). Diese können vom Nutzer als äußerst störend empfunden werden und die User Experience trotz noch so gutem Design zunichte machen. Da die Verarbeitungsgeschwindigkeit zum größten Teil von der Performance des Gerätes, auf welchem die Applikation läuft, und von der Implementierung der HWR abhängt (wir sie also nur durch die Wahl des Frameworks beeinflussen können) und sich derartige Probleme erst am Ende des Entwicklungsprozesses zeigen, haben wir dieses Kriterium als Kann-Kriterium definiert.
+  * **<fc #808080>AH4</fc> Hohe Erkennungsrate**. Die HWR-Software sollte mit möglichst hoher Zuverlässigkeit den eingegeben Text erkennen und digitalisieren (s. Aufgabenstellung: //"Erkennungsrate"//). Auch das hängt von der Leistungsfähigkeit des Frameworks ab und ist daher als Kann-Kriterium eingestuft.
+ 

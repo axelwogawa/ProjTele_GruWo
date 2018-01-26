@@ -1,0 +1,5 @@
+===== Motivation =====
+
+In der heutigen Berufswelt gibt es keinen Bereich mehr, der nicht in irgendeiner Weise von Maschinen gesteuert oder geregelt wird. Die Sollgrößen müssen zum Teil per Hand eingestellt werden. Vor allem die Bedien- und Beobachtungssysteme in der Automatisierungstechnik erfordern sehr oft das Notieren von Beobachtungen des Anlagenbedieners. Um die Bedienung zu vereinfachen und sich nicht jedes mal durch das umfangreiche Menü direkt an der Maschine klicken zu müssen, gibt es die Bedienschnittstellen. 
+
+Besonders portabel sind die Applikationen, die in Form einer App laufen. Eine Handschrifterkennung (engl. __H__and__w__riting __R__ecognition; im Folgenden nur noch HWR) bietet dem Nutzer zudem die Möglichkeit, komfortabel und ohne viel Aufwand Maschinen zu bedienen und Werte sowie Notizen eintragen zu können. Eine Echtzeit-Umwandlung in digitalen Text macht es möglich, dass die Maschinen anschließend mit den eingegebenen Werten arbeiten können. Das spart Zeit, macht die Anwendung flexibler und schont vor allem auch die Nerven des Anlagenbedieners. 
