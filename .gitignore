@@ -27,6 +27,7 @@
 
 # Other
 .old/
+.~lock.*
 
 
 

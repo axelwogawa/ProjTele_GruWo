@@ -47,7 +47,6 @@ public class MainActivity extends MySLWTActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         //toggle button allows user to set mode of the NXT device
         final Button toggleButton = (Button) findViewById(R.id.toggleInsert);
         //disable button initially
@@ -103,7 +102,6 @@ public class MainActivity extends MySLWTActivity{
                     //clear the widget (ansonsten wird der alte Text weiterhin verwendet)
                     widget.clear();
 
-
                     updateListOffer();
                 }
             }
@@ -118,7 +116,6 @@ public class MainActivity extends MySLWTActivity{
             }
         });
 
-
         final Button deleteButton = (Button) findViewById(R.id.buttonDelete);
         //on click call the BluetoothActivity to choose a listed device
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +124,6 @@ public class MainActivity extends MySLWTActivity{
             }
         });
 
-
         final Button clearButton = (Button) findViewById(R.id.buttonClear);
         //on click call the BluetoothActivity to choose a listed device
         clearButton.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +131,6 @@ public class MainActivity extends MySLWTActivity{
                 clearContent(widget);
             }
         });
-
 
         //arrayListLastItem 12 Elemente hinzufügen
         for(int i=0; i<=11; i++){
@@ -151,20 +146,16 @@ public class MainActivity extends MySLWTActivity{
 
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
 
-                /*YOUR CHOICE OF COLOR*/
                 textView.setTextColor(Color.LTGRAY);
 
                 return view;
             }
         };
 
-        /*SET THE ADAPTER TO LISTVIEW*/
         listViewLastItem.setAdapter(adapterLastItem);
         listViewLastItem.setOnItemClickListener(this);
 
         updateListOffer();
-
-
 
         this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget);
     }
@@ -172,7 +163,6 @@ public class MainActivity extends MySLWTActivity{
 
     @Override
     public void onItemClick(AdapterView<?> lV, View view, int pos, long id){
-
         String newWord;
 
         if(lV.getId() == R.id.listViewLastItem){
@@ -192,7 +182,6 @@ public class MainActivity extends MySLWTActivity{
         }else{
             Toast.makeText(this, "Keine Liste ausgewählt.", Toast.LENGTH_SHORT).show();
         }
-
     }
 
 
@@ -233,7 +222,6 @@ public class MainActivity extends MySLWTActivity{
         //add elements to arraylistoffer
         arrayListOffer = getCandidateStrings(widget);
        // Toast.makeText(this, "Größe: " + arrayListOffer.size(), Toast.LENGTH_SHORT).show();
-
 
         //reference to view
         listViewOffer = (ListView) findViewById(R.id.listViewOffer);
