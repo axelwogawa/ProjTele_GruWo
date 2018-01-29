@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -116,7 +117,7 @@ public class MainActivity extends MySLWTActivity{
             }
         });
 
-        final Button deleteButton = (Button) findViewById(R.id.buttonDelete);
+        final ImageButton deleteButton = (ImageButton) findViewById(R.id.buttonDelete);
         //on click call the BluetoothActivity to choose a listed device
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
@@ -124,11 +125,19 @@ public class MainActivity extends MySLWTActivity{
             }
         });
 
-        final Button clearButton = (Button) findViewById(R.id.buttonClear);
+        final Button clearButton = (Button) findViewById(R.id.buttonClearAll);
         //on click call the BluetoothActivity to choose a listed device
         clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 clearContent(widget);
+            }
+        });
+
+        final Button blankButton = (Button) findViewById(R.id.buttonBlank);
+        //on click call the BluetoothActivity to choose a listed device
+        blankButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                insertWhitespace(widget);
             }
         });
 

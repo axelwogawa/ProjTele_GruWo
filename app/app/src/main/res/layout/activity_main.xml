@@ -90,7 +90,7 @@
         android:layout_alignRight="@+id/listViewOffer"
         android:layout_marginEnd="89dp"
         android:layout_marginRight="89dp"
-        android:layout_marginBottom="180dp"
+        android:layout_marginBottom="190dp"
         android:layout_alignBottom="@+id/listViewOffer"
         android:text="übernehmen" />
 
@@ -128,29 +128,41 @@
         android:enabled="true"
         android:text="Notizen" />
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonDelete"
         android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/listViewOffer"
-        android:layout_alignRight="@+id/listViewOffer"
-        android:layout_marginEnd="89dp"
-        android:layout_marginRight="89dp"
-        android:layout_alignBottom="@+id/toggleInsert"
-        android:text="Del" />
+        android:layout_height="35dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/buttonClearAll"
+        android:layout_toEndOf="@+id/buttonClearAll"
+        android:layout_marginBottom="196dp"
+        android:layout_alignBottom="@+id/listViewOffer"
+        android:src="@drawable/pfeil_links" />
 
     <Button
-        android:id="@+id/buttonClear"
+        android:id="@+id/buttonClearAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/buttonDelete"
-        android:layout_alignRight="@+id/buttonDelete"
-        android:layout_marginEnd="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_alignBottom="@+id/toggleInsert"
-        android:layout_toStartOf="@+id/buttonDelete"
-        android:layout_toLeftOf="@+id/buttonDelete"
+        android:layout_alignStart="@+id/listViewOffer"
+        android:layout_alignLeft="@+id/listViewOffer"
+        android:layout_marginStart="33dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginBottom="190dp"
+        android:layout_alignBottom="@+id/listViewOffer"
         android:text="alles löschen" />
+
+    <Button
+        android:id="@+id/buttonBlank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonInherit"
+        android:layout_alignBottom="@+id/buttonInherit"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/buttonInherit"
+        android:layout_toStartOf="@+id/buttonInherit"
+        android:text="Leerzeichen" />
 
 
 </RelativeLayout>

@@ -55,8 +55,18 @@ public class MemoActivity extends MySLWTActivity{
             }
         });
 
+        //was passiert beim Speicher-Button
+        final Button saveBetweenButton = (Button) findViewById(R.id.button_saveBetween);
+        //on click call the BluetoothActivity to choose a listed device
+        saveBetweenButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+               //TODO: implement method
+                //Übernahme in Label oberhalb des SingleLineWidgets
+            }
+        });
+
         //was passiert beim Löschen-Button
-        final Button clearButton = (Button) findViewById(R.id.button_clear);
+        final Button clearButton = (Button) findViewById(R.id.buttonClearAllNotes);
         //on click call the BluetoothActivity to choose a listed device
         clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
