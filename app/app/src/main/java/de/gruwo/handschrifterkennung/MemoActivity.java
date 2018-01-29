@@ -27,9 +27,6 @@ public class MemoActivity extends MySLWTActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
 
-        this.editedText = new EditedText();
-
-
         final Button backButtonNotes = (Button) findViewById(R.id.buttonBackNotes);
         //on click call the BluetoothActivity to choose a listed device
         backButtonNotes.setOnClickListener(new View.OnClickListener() {

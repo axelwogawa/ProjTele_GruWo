@@ -177,6 +177,9 @@ public class MySLWTActivity
      * This method is called as soon as the MyScript SingleLineWidget recognises that the user stops
      * writing (which currently seems not to work properly).
      *
+     * @see <a href="https://developer.myscript.com/old-docs/atk/2.2/android/_/sltw/ref/javadoc/index.html>MyScript
+     * SingleLineWidget Docs</a>
+     *
      */
     @Override
     public void onPenAbort(SingleLineWidgetApi widget){
@@ -186,6 +189,15 @@ public class MySLWTActivity
     }
 
 
+    /**
+     * This method is called as soon as the MyScript SingleLineWidget recognises an erase gesture
+     * (which is a stroke from left to right through parts of the recognised text or striking it
+     * out with a zig zag line).
+     *
+     * @see <a href="https://developer.myscript.com/old-docs/atk/2.2/android/_/sltw/ref/javadoc/index.html>MyScript
+     * SingleLineWidget Docs</a>
+     *
+     */
     @Override
     public  void onEraseGesture(SingleLineWidgetApi w, int start, int end){
         String message = "Erase gesture detected from index " + start + " to " + end;
@@ -194,6 +206,14 @@ public class MySLWTActivity
     }
 
 
+    /**
+     * This method is called as soon as the MyScript SingleLineWidget recognises an underline
+     * gesture.
+     *
+     * @see <a href="https://developer.myscript.com/old-docs/atk/2.2/android/_/sltw/ref/javadoc/index.html>MyScript
+     * SingleLineWidget Docs</a>
+     *
+     */
     @Override
     public  void onUnderlineGesture(SingleLineWidgetApi w, int start, int end){
         String message = "Underline gesture detected from index " + start + " to " + end;
@@ -202,6 +222,14 @@ public class MySLWTActivity
     }
 
 
+    /**
+     * This method is called as soon as the MyScript SingleLineWidget recognises a select gesture
+     * (which is drawing a rectangle around parts of the recognised text).
+     *
+     * @see <a href="https://developer.myscript.com/old-docs/atk/2.2/android/_/sltw/ref/javadoc/index.html>MyScript
+     * SingleLineWidget Docs</a>
+     *
+     */
     @Override
     public  void onSelectGesture(SingleLineWidgetApi w, int start, int end){
         String message = "Select gesture detected from index " + start + " to " + end;
@@ -210,6 +238,14 @@ public class MySLWTActivity
     }
 
 
+    /**
+     * This method is called as soon as the MyScript SingleLineWidget recognises an insert gesture
+     * (which is a stroke from up to down anywhere within the recognised text).
+     *
+     * @see <a href="https://developer.myscript.com/old-docs/atk/2.2/android/_/sltw/ref/javadoc/index.html>MyScript
+     * SingleLineWidget Docs</a>
+     *
+     */
     @Override
     public  void onInsertGesture(SingleLineWidgetApi w, int index){
         String message = "Insert gesture detected at index " + index;
@@ -218,6 +254,14 @@ public class MySLWTActivity
     }
 
 
+    /**
+     * This method is called as soon as the MyScript SingleLineWidget recognises a join gesture
+     * (which is a stroke from down to up anywhere within the recognised text).
+     *
+     * @see <a href="https://developer.myscript.com/old-docs/atk/2.2/android/_/sltw/ref/javadoc/index.html>MyScript
+     * SingleLineWidget Docs</a>
+     *
+     */
     @Override
     public  void onJoinGesture(SingleLineWidgetApi w, int start, int end){
         String message = "Join gesture detected from index " + start + " to " + end;
@@ -226,6 +270,14 @@ public class MySLWTActivity
     }
 
 
+    /**
+     * This method is called as soon as the MyScript SingleLineWidget recognises a long press
+     * gesture.
+     *
+     * @see <a href="https://developer.myscript.com/old-docs/atk/2.2/android/_/sltw/ref/javadoc/index.html>MyScript
+     * SingleLineWidget Docs</a>
+     *
+     */
     @Override
     public  void onLongPressGesture(SingleLineWidgetApi w, int index){
         String message = "Long press gesture detected at index " + index;
@@ -234,6 +286,14 @@ public class MySLWTActivity
     }
 
 
+    /**
+     * This method is called as soon as the MyScript SingleLineWidget recognises an overwrite
+     * gesture (which is writing on top of already recognised text).
+     *
+     * @see <a href="https://developer.myscript.com/old-docs/atk/2.2/android/_/sltw/ref/javadoc/index.html>MyScript
+     * SingleLineWidget Docs</a>
+     *
+     */
     @Override
     public  void onOverwriteGesture(SingleLineWidgetApi w, int start, int end){
         String message = "Overwrite gesture detected from index " + start + " to " + end;
@@ -275,6 +335,16 @@ public class MySLWTActivity
     }
 
 
+    /**
+     * This method determines the currently selected word (to select a word, the cursor must be
+     * positioned in front of the first character or behind the last character or anywhere in
+     * between) and returns the {@code CandidateInfo} of this word.
+     *
+     * @param widget the MyScript SingleLineWidget
+     * @return the {@code CandidateInfo}
+     * @see <a href="https://developer.myscript.com/old-docs/atk/2.2/android/_/sltw/ref/javadoc/index.html>MyScript
+     * SingleLineWidget Docs</a>
+     */
     public CandidateInfo getCurrentCandidateInfo(SingleLineWidgetApi widget){
         int candidateIndex = widget.getCursorIndex();
         if (candidateIndex > 0
@@ -363,6 +433,13 @@ public class MySLWTActivity
         super.onBackPressed();
     }
 
+
+    /**
+     * Configures the MyScript SingleLineTextWidget, which includes certificate check, setting
+     * listeners, HWR resources and appearance.
+     *
+     * @param widget the MyScript SingleLineWidget
+     */
     public void configureWidget(SingleLineWidgetApi widget){
         //the following code was taken from MyScript Single Line Text Widged documentation
         //url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html

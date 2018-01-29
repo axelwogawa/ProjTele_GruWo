@@ -1,0 +1,4 @@
+===== Anforderungen =====
+
+Da sich die Aufgabenstellung in die zwei Hauptpunkte //Auswahl des Frameworks// und //Erstellung einer Bedienoberfläche// gliedert, ist es sinnvoll, die Anforderungen ebenso zweigeteilt zu betrachten. Im Folgenden sind Muss-Kriterien durch rote Kürzel (z.B. **<fc #ff0000>F1</fc>**) und Kann-Kriterien durch graue Kürzel (z.B. **<fc #808080>F5</fc>**) gekennzeichnet.
+
