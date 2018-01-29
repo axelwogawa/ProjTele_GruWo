@@ -123,7 +123,7 @@ public class MainActivity extends MySLWTActivity{
         //on click call the BluetoothActivity to choose a listed device
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                //TODO: Methode implementieren -> letzter Buchstabe muss entfernt werden
+                removeCharacter(widget);
             }
         });
 

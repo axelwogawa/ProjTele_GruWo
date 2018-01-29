@@ -54,14 +54,14 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="800dp"
         android:layout_marginStart="800dp"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="100dp"
         android:text="Speichern"/>
 
     <Button
         android:id="@+id/button_clear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="800dp"
         android:layout_marginStart="800dp"
         android:text="Löschen"/>
