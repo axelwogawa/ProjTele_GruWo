@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item type="id" name="button_Memo1"/>
+    <item type="id" name="button_Memo2"/>
+    <item type="id" name="button_Memo3"/>
+    <item type="id" name="button_Memo4"/>
+    <item type="id" name="button_Memo5"/>
+    <item type="id" name="button_Memo6"/>
+    <item type="id" name="button_Memo7"/>
+    <item type="id" name="button_Memo8"/>
+    <item type="id" name="button_Memo9"/>
+    <item type="id" name="button_Memo10"/>
+</resources>

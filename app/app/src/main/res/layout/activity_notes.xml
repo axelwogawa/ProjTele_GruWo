@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/rl_notes">
 
     <TextView
         android:id="@+id/textView_notes"
         android:layout_width="750dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonBackNotes"
-        android:layout_marginLeft="155dp"
-        android:layout_marginStart="155dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="22dp"
-        android:layout_toEndOf="@+id/buttonBackNotes"
-        android:layout_toRightOf="@+id/buttonBackNotes"
         android:textSize="20sp"
-        android:hint="hier ist Platz für Notizen" />
+        android:hint="hier ist Platz für Notizen..." />
 
     <Button
         android:id="@+id/buttonBackNotes"
@@ -77,12 +76,12 @@
 
     <ImageButton
         android:id="@+id/buttonDeleteNotes"
-        android:layout_width="50dp"
+        android:layout_width="40dp"
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="856dp"
         android:layout_marginStart="856dp"
-        android:src="@drawable/pfeil_links" />
+        android:src="@drawable/pfeil_links_bearbeitet" />
 
     <!-- The following element was taken from MyScript Single Line Text Widged documentation;
     url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
@@ -100,5 +99,108 @@
         android:layout_marginRight="100dp"
         android:ems="10"
         android:hint="Text eingeben..." />
+
+    <ListView
+        android:id="@+id/listViewOfferNotes"
+        android:layout_width="750dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="510dp"
+        android:fadeScrollbars="false"/>
+
+
+
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/button_save"
+        android:layout_marginTop="100dp"
+        android:isScrollContainer="true">
+
+
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_notes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="0dp"
+                    android:text="Button 1"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="50dp"
+                    android:text="Button 2"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="100dp"
+                    android:text="Button 2"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="150dp"
+                    android:text="Button 3"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="200dp"
+                    android:text="Button 4"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="250dp"
+                    android:text="Button 5"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="300dp"
+                    android:text="Button 6"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="350dp"
+                    android:text="Button 7"/>
+                <Button
+                    android:id="@+id/lastButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="400dp"
+                    android:text="Button 8"/>
+
+
+            </RelativeLayout>
+
+
+    </ScrollView>
 
 </RelativeLayout>
