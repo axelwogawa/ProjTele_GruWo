@@ -509,4 +509,6 @@ public class MySLWTActivity
     public String getString(){
         return this.editedText.getText();
     }
+
+
 }

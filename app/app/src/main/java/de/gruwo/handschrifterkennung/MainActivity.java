@@ -36,11 +36,11 @@ public class MainActivity extends MySLWTActivity{
     ArrayAdapter<String> adapterLastItem = null;
 
     private ListView listViewOffer;
-    ArrayList<String> arrayListOffer = new ArrayList<>();
-    ArrayAdapter adapterOffer = null;
+    private ArrayList<String> arrayListOffer = new ArrayList<>();
+    private ArrayAdapter adapterOffer = null;
 
     //request code
-    final int REQUEST_SETUP_BT_CONNECTION = 1;
+    private final int REQUEST_SETUP_BT_CONNECTION = 1;
 
 
     @Override
