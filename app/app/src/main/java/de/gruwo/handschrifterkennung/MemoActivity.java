@@ -292,7 +292,13 @@ public class MemoActivity extends MySLWTActivity{
         String newWord;
 
         if(parent.getId() == R.id.listViewOfferNotes){
-            Toast.makeText(this,  arrayListOfferNotes.get(position) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+            if(arrayListOfferNotes.get(position).equals("")){
+                //do nothing
+                Toast.makeText(this,  "kein Eintrag vorhanden", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this,  arrayListOfferNotes.get(position) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+            }
+
 
             //change the word in the widget
             newWord = arrayListOfferNotes.get(position);

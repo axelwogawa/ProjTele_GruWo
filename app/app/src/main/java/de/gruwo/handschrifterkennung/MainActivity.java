@@ -175,14 +175,26 @@ public class MainActivity extends MySLWTActivity{
         String newWord;
 
         if(lV.getId() == R.id.listViewLastItem){
-            Toast.makeText(this,  arrayListLastItem.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+            if(arrayListLastItem.get(pos).equals("")){
+                //do nothing
+                Toast.makeText(this,  "kein Eintrag vorhanden", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this,  arrayListLastItem.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+            }
+
 
             //change the word in the widget
             newWord = arrayListLastItem.get(pos);
             this.insertString(this.widget, newWord);
 
         }else if(lV.getId() == R.id.listViewOffer){
-            Toast.makeText(this,  arrayListOffer.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+            if(arrayListOffer.get(pos).equals("")){
+                //do nothing
+                Toast.makeText(this,  "kein Eintrag vorhanden", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this,  arrayListOffer.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+            }
+            
 
             //change the word in the widget
             newWord = arrayListOffer.get(pos);
