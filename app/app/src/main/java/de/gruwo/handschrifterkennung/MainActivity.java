@@ -29,11 +29,9 @@ import de.gruwo.handschrifterkennung.business.hwr.EditedText;
  */
 public class MainActivity extends MySLWTActivity{
 
-    //TODO: make attributes public or private
     private ListView listViewLastItem;
-    ArrayList<String> arrayListLastItem = new ArrayList<String>();
-    //ArrayAdapter deklarieren -> initialisiert wird später (line 115)
-    ArrayAdapter<String> adapterLastItem = null;
+    private ArrayList<String> arrayListLastItem = new ArrayList<String>();
+    private ArrayAdapter<String> adapterLastItem = null;
 
     private ListView listViewOffer;
     private ArrayList<String> arrayListOffer = new ArrayList<>();
@@ -48,8 +46,20 @@ public class MainActivity extends MySLWTActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //toggle button allows user to set mode of the NXT device
+        //initialize
         final Button toggleButton = (Button) findViewById(R.id.toggleInsert);
+        final Button toggleMemo = (Button) findViewById(R.id.toggleMemo);
+        final Button inheritButton = (Button) findViewById(R.id.buttonInherit);
+        final Button memoButton = (Button) findViewById(R.id.toggleMemo);
+        final ImageButton deleteButton = (ImageButton) findViewById(R.id.buttonDelete);
+        final Button clearButton = (Button) findViewById(R.id.buttonClearAll);
+        final Button blankButton = (Button) findViewById(R.id.buttonBlank);
+        this.listViewLastItem = (ListView) findViewById(R.id.listViewLastItem);
+        this.listViewOffer = (ListView) findViewById(R.id.listViewOffer);
+        this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget);
+
+
+
         //disable button initially
         toggleButton.setEnabled(false);
         //on click change mode
@@ -64,8 +74,7 @@ public class MainActivity extends MySLWTActivity{
             }
          });
 
-        //toggle button allows user to set mode of the NXT device
-        final Button toggleMemo = (Button) findViewById(R.id.toggleMemo);
+
         //disable button initially
         toggleMemo.setEnabled(true);
         //on click change mode
@@ -80,9 +89,7 @@ public class MainActivity extends MySLWTActivity{
               }
         });
 
-        //was passiert beim Übernehmen-Button
-        final Button inheritButton = (Button) findViewById(R.id.buttonInherit);
-        //on click call the BluetoothActivity to choose a listed device
+
         inheritButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 if(editedText.getText().equals("")){
@@ -91,15 +98,13 @@ public class MainActivity extends MySLWTActivity{
 
                     //insert in array to show in list
                     arrayListLastItem.add(0, String.valueOf(editedText.getText()));
-                    //letztes Element aus der ArrayList entfernen (damit die Anzeige schöner ist)
-                    //Nachteil: nicht alle Elemente werden für immer gespeichert, sondern nur die letzten vier
+                    //delete the last item of the arraylist
+                    //disadvantage: items not fixed saved for a long time
                     arrayListLastItem.remove(arrayListLastItem.size() - 1);
 
                     //update text in adapter's items
                     adapterLastItem.notifyDataSetChanged();
 
-                    //clear EditText and delete the insert
-                    //editedText.clearText();
                     //clear the widget (ansonsten wird der alte Text weiterhin verwendet)
                     widget.clear();
 
@@ -108,8 +113,7 @@ public class MainActivity extends MySLWTActivity{
             }
         });
 
-        final Button memoButton = (Button) findViewById(R.id.toggleMemo);
-        //on click call the BluetoothActivity to choose a listed device
+
         memoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 Intent serverIntent = new Intent(getApplicationContext(),MemoActivity.class);
@@ -117,38 +121,34 @@ public class MainActivity extends MySLWTActivity{
             }
         });
 
-        final ImageButton deleteButton = (ImageButton) findViewById(R.id.buttonDelete);
-        //on click call the BluetoothActivity to choose a listed device
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 removeCharacter(widget);
             }
         });
 
-        final Button clearButton = (Button) findViewById(R.id.buttonClearAll);
-        //on click call the BluetoothActivity to choose a listed device
+
         clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 clearContent(widget);
             }
         });
 
-        final Button blankButton = (Button) findViewById(R.id.buttonBlank);
-        //on click call the BluetoothActivity to choose a listed device
+
         blankButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 insertWhitespace(widget);
             }
         });
 
-        //arrayListLastItem 12 Elemente hinzufügen
+        // add 12 items to arrayListLastItem
         for(int i=0; i<=11; i++){
-            arrayListLastItem.add("");
+            this.arrayListLastItem.add("");
         }
 
-        //Referenz auf die View besorgen
-        listViewLastItem = (ListView) findViewById(R.id.listViewLastItem);
-        adapterLastItem = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayListLastItem){
+
+        this.adapterLastItem = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, this.arrayListLastItem){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
@@ -161,12 +161,10 @@ public class MainActivity extends MySLWTActivity{
             }
         };
 
-        listViewLastItem.setAdapter(adapterLastItem);
-        listViewLastItem.setOnItemClickListener(this);
+        this.listViewLastItem.setAdapter(this.adapterLastItem);
+        this.listViewLastItem.setOnItemClickListener(this);
 
         updateListOffer();
-
-        this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget);
     }
 
 
@@ -175,29 +173,29 @@ public class MainActivity extends MySLWTActivity{
         String newWord;
 
         if(lV.getId() == R.id.listViewLastItem){
-            if(arrayListLastItem.get(pos).equals("")){
+            if(this.arrayListLastItem.get(pos).equals("")){
                 //do nothing
                 Toast.makeText(this,  "kein Eintrag vorhanden", Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(this,  arrayListLastItem.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,  this.arrayListLastItem.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
             }
 
 
             //change the word in the widget
-            newWord = arrayListLastItem.get(pos);
+            newWord = this.arrayListLastItem.get(pos);
             this.insertString(this.widget, newWord);
 
         }else if(lV.getId() == R.id.listViewOffer){
-            if(arrayListOffer.get(pos).equals("")){
+            if(this.arrayListOffer.get(pos).equals("")){
                 //do nothing
                 Toast.makeText(this,  "kein Eintrag vorhanden", Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(this,  arrayListOffer.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,  this.arrayListOffer.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
             }
-            
+
 
             //change the word in the widget
-            newWord = arrayListOffer.get(pos);
+            newWord = this.arrayListOffer.get(pos);
             this.replaceWord(this.widget, newWord);
 
         }else{
@@ -238,17 +236,12 @@ public class MainActivity extends MySLWTActivity{
     @Override
     public void onTextChanged(SingleLineWidgetApi widget, String s, boolean intermediate){
         super.onTextChanged(widget, s, intermediate);
-
-        //Vorschlagsliste aktualisieren
         //add elements to arraylistoffer
-        arrayListOffer = getCandidateStrings(widget);
-       // Toast.makeText(this, "Größe: " + arrayListOffer.size(), Toast.LENGTH_SHORT).show();
+        this.arrayListOffer = getCandidateStrings(widget);
 
-        //reference to view
-        listViewOffer = (ListView) findViewById(R.id.listViewOffer);
-        adapterOffer = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListOffer);
-        listViewOffer.setAdapter(adapterOffer);
-        listViewOffer.setOnItemClickListener(this);
+        this.adapterOffer = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, this.arrayListOffer);
+        this.listViewOffer.setAdapter(this.adapterOffer);
+        this.listViewOffer.setOnItemClickListener(this);
 
         if(editedText.getText().equals("")){
             updateListOffer();
@@ -256,17 +249,19 @@ public class MainActivity extends MySLWTActivity{
 
     }
 
+
+    /**
+     * This method is called when the listview with offers has to be updated.
+     */
     private void updateListOffer(){
-        //Vorschlagsliste aktualisieren
+        //update the listview with offers
 
         //add elements to arraylistoffer
         for(int i= 0; i<3; i++){
-            arrayListOffer.add("");
+            this.arrayListOffer.add("");
         }
 
-        //Referenz auf die View besorgen
-        listViewOffer = (ListView) findViewById(R.id.listViewOffer);
-        adapterOffer = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayListOffer){
+        this.adapterOffer = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, this.arrayListOffer){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
@@ -281,8 +276,8 @@ public class MainActivity extends MySLWTActivity{
         };
 
 
-        listViewOffer.setAdapter(adapterOffer);
-        listViewOffer.setOnItemClickListener(this);
+        this.listViewOffer.setAdapter(this.adapterOffer);
+        this.listViewOffer.setOnItemClickListener(this);
     }
 }
 

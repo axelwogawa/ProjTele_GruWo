@@ -506,8 +506,36 @@ public class MySLWTActivity
     }
 
 
-    public String getString(){
-        return this.editedText.getText();
+    private void updateListOfferNotes(ListView listOffer, ArrayList<String> arrayListOffer, ArrayAdapter adapterOffer, SingleLineWidget widget){
+        //clear the current arrayListOffer
+        arrayListOffer.clear();
+
+        //arrayListLastItem 2 Elemente hinzufügen
+        if(editedText.getText().equals("")){
+            for(int i=0; i<=2; i++){
+                arrayListOffer.add("");
+            }
+        }else{
+            arrayListOffer = getCandidateStrings(widget);
+        }
+
+
+        //Referenz auf die View besorgen
+        adapterOffer = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayListOffer){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
+
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+                textView.setTextColor(Color.BLACK);
+
+                return view;
+            }
+        };
+
+        listViewOffer.setAdapter(adapterOffer);
+        listViewOffer.setOnItemClickListener(this);
     }
 
 

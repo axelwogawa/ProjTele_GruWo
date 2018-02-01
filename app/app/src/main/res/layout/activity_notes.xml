@@ -11,7 +11,7 @@
         android:layout_below="@+id/buttonBackNotes"
         android:layout_marginLeft="50dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="5dp"
         android:textSize="20sp"
         android:hint="hier ist Platz für Notizen..." />
 
@@ -22,8 +22,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="54dp"
-        android:layout_marginStart="54dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="25dp"
         android:text="Zurück" />
 
@@ -51,36 +51,44 @@
         android:id="@+id/button_saveBetween"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="850dp"
-        android:layout_marginStart="850dp"
-        android:layout_marginTop="100dp"
-        android:text="Übernehmen"/>
+        android:layout_alignBaseline="@+id/button_save"
+        android:layout_alignBottom="@+id/button_save"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/button_save"
+        android:layout_toStartOf="@+id/button_save"
+        android:text="Übernehmen" />
 
     <Button
         android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="850dp"
-        android:layout_marginStart="850dp"
-        android:layout_marginTop="150dp"
-        android:text="Speichern"/>
+        android:layout_alignEnd="@+id/listViewOfferNotes"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/listViewOfferNotes"
+        android:layout_marginBottom="161dp"
+        android:text="Speichern" />
 
     <Button
         android:id="@+id/buttonClearAllNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="850dp"
-        android:layout_marginStart="850dp"
-        android:text="alles löschen"/>
+        android:layout_alignBaseline="@+id/button_saveBetween"
+        android:layout_alignBottom="@+id/button_saveBetween"
+        android:layout_alignLeft="@+id/listViewOfferNotes"
+        android:layout_alignStart="@+id/listViewOfferNotes"
+        android:text="alles löschen" />
 
     <ImageButton
         android:id="@+id/buttonDeleteNotes"
         android:layout_width="40dp"
         android:layout_height="35dp"
+        android:layout_alignTop="@+id/buttonClearAllNotes"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="856dp"
-        android:layout_marginStart="856dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/buttonClearAllNotes"
+        android:layout_toRightOf="@+id/buttonClearAllNotes"
         android:src="@drawable/pfeil_links_bearbeitet" />
 
     <!-- The following element was taken from MyScript Single Line Text Widged documentation;
@@ -92,7 +100,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_below="@id/textView_notes"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="220dp"
         android:layout_marginLeft="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="100dp"
@@ -107,7 +115,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="50dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="510dp"
+        android:layout_marginTop="480dp"
         android:fadeScrollbars="false"/>
 
 
@@ -121,7 +129,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@id/button_save"
-        android:layout_marginTop="100dp"
+        android:layout_alignParentTop="true"
         android:isScrollContainer="true">
 
 
@@ -142,11 +150,22 @@
         android:id="@+id/button_holdBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView_notes"
-        android:layout_alignRight="@+id/textView_notes"
-        android:layout_alignTop="@+id/toggleMemoNotes"
-        android:layout_marginEnd="35dp"
-        android:layout_marginRight="35dp"
+        android:layout_alignBottom="@id/button_saveBetween"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@+id/button_saveBetween"
+        android:layout_toLeftOf="@+id/button_saveBetween"
         android:text="zurückholen" />
+
+    <Button
+        android:id="@+id/button_blankNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/button_holdBack"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@+id/button_holdBack"
+        android:layout_toLeftOf="@+id/button_holdBack"
+        android:text="Leerzeichen" />
 
 </RelativeLayout>

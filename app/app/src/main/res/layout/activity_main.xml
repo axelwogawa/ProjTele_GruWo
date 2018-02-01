@@ -28,12 +28,14 @@
 
     <ListView
         android:id="@+id/listViewOffer"
-        android:layout_width="match_parent"
+        android:layout_width="750dp"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginRight="200dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginLeft="34dp"
         android:layout_marginTop="480dp" />
 
     <TextView
@@ -44,8 +46,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="160dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginLeft="34dp"
+        android:layout_marginStart="34dp"
         android:layout_above="@+id/listViewOffer"
         android:textStyle="bold"
         android:text="Vorschläge:" />
@@ -69,7 +71,7 @@
     TODO: fit size, alignment-->
     <com.myscript.atk.sltw.SingleLineWidget
         android:id="@+id/singleLine_widget"
-        android:layout_width="700dp"
+        android:layout_width="750dp"
         android:layout_height="match_parent"
         android:layout_above="@+id/textViewOffer"
         android:layout_gravity="center_horizontal"
@@ -88,8 +90,6 @@
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/listViewOffer"
         android:layout_alignRight="@+id/listViewOffer"
-        android:layout_marginEnd="89dp"
-        android:layout_marginRight="89dp"
         android:layout_marginBottom="190dp"
         android:layout_alignBottom="@+id/listViewOffer"
         android:text="übernehmen" />
@@ -102,8 +102,6 @@
         android:layout_alignLeft="@+id/textViewOffer"
         android:layout_alignStart="@+id/textViewOffer"
         android:layout_alignTop="@+id/textViewLastItem"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="13dp"
         android:text="Zurück" />
 
     <Button
@@ -146,8 +144,6 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/listViewOffer"
         android:layout_alignLeft="@+id/listViewOffer"
-        android:layout_marginStart="33dp"
-        android:layout_marginLeft="33dp"
         android:layout_marginBottom="190dp"
         android:layout_alignBottom="@+id/listViewOffer"
         android:text="alles löschen" />

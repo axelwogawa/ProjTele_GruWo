@@ -35,23 +35,40 @@ public class MemoActivity extends MySLWTActivity{
 
     private int numberEntries;
 
-    float xSet = 60;
-    float ySet = 0;
+    private float xSet = 80;
+    private float ySet = 20;
 
     //to show the items of the list
     private ListView listViewOfferNotes;
-    ArrayList<String> arrayListOfferNotes = new ArrayList<>();
-    ArrayAdapter adapterOfferNotes = null;
+    private ArrayList<String> arrayListOfferNotes = new ArrayList<>();
+    private ArrayAdapter adapterOfferNotes = null;
 
-    //Array zum Text speichern
+    //Array to save the input (text from the user)
     private ArrayList <String> textArray;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
 
-        //initialize textArray
-        textArray = new ArrayList<>();
+        //initialize
+        final TextView label = (TextView) findViewById(R.id.textView_notes);
+        final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+        final RelativeLayout relative = (RelativeLayout) findViewById(R.id.rl_notes);
+        final ImageButton deleteNotesButton = (ImageButton) findViewById(R.id.buttonDeleteNotes);
+        final Button backButtonNotes = (Button) findViewById(R.id.buttonBackNotes);
+        final Button saveButton = (Button) findViewById(R.id.button_save);
+        final Button saveBetweenButton = (Button) findViewById(R.id.button_saveBetween);
+        final Button clearNotesButton = (Button) findViewById(R.id.buttonClearAllNotes);
+        final Button blankNotesButton = (Button) findViewById(R.id.button_blankNotes);
+        final Button holdBackButton = (Button) findViewById(R.id.button_holdBack);
+        final Button toggleInsertNotes = (Button) findViewById(R.id.toggleInsertNotes);
+        final Button toggleMemoNotes = (Button) findViewById(R.id.toggleMemoNotes);
+        final Button insertButtonNotes = (Button) findViewById(R.id.toggleInsertNotes);
+        listViewOfferNotes = (ListView) findViewById(R.id.listViewOfferNotes);
+        this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget_notes);
+        final RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayout_notes);
+
+
 
         //set int-values of the ID
         final ArrayList<Integer> ids = new ArrayList<>();
@@ -65,20 +82,20 @@ public class MemoActivity extends MySLWTActivity{
         ids.add(7, R.id.button_Memo8);
         ids.add(8, R.id.button_Memo9);
         ids.add(9, R.id.button_Memo10);
+        ids.add(9, R.id.button_Memo11);
 
         //initialisze the counter
-        numberEntries = 0;
+        this.numberEntries = 0;
+
+        //initialize textArray
+        this.textArray = new ArrayList<>();
 
         //initialize listView for offers
         updateListOfferNotes();
 
-        //initialize
-        final TextView label = (TextView) findViewById(R.id.textView_notes);
 
 
-
-        final Button backButtonNotes = (Button) findViewById(R.id.buttonBackNotes);
-        //on click call the BluetoothActivity to choose a listed device
+        //setup the buttons
         backButtonNotes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 Intent serverIntent = new Intent(getApplicationContext(),MainActivity.class);
@@ -87,18 +104,12 @@ public class MemoActivity extends MySLWTActivity{
         });
 
 
-        //was passiert beim Speicher-Button
-        final Button saveButton = (Button) findViewById(R.id.button_save);
-        //on click call the BluetoothActivity to choose a listed device
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                //Toast.makeText(MemoActivity.this, "Hier muss noch implementiert werden...", Toast.LENGTH_LONG).show();
-
                 if(editedText.getText().equals("") && label.getText().equals("")){
                     Toast.makeText(MemoActivity.this, "Es erfolgte keine Eingabe.", Toast.LENGTH_LONG).show();
-                }else {
+                }else if(numberEntries <= 10) {
                     //create a new button
-                    RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayout_notes);
                     Button btn = new Button(MemoActivity.this);
                     btn.setWidth(50);
                     btn.setHeight(25);
@@ -116,19 +127,16 @@ public class MemoActivity extends MySLWTActivity{
                         textArray.add(numberEntries, string1 + " " + string2);
                     }
 
-
                     //increment counter
                     numberEntries++;
-
 
                     //set the place of the button
                     //calculatethe yPosition of the button
                     if(numberEntries > 1){
-                        ySet = ySet + 104;
+                        ySet = ySet + 110;
                     }
                     btn.setX(xSet);
                     btn.setY(ySet);
-
 
                     //set the colours of the button
                     btn.setBackgroundColor(Color.LTGRAY);
@@ -138,15 +146,11 @@ public class MemoActivity extends MySLWTActivity{
                     //set OnClickListener
                     btn.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View view) {
-                            //TODO: implement the method
                             Button btn = (Button) findViewById(view.getId());
                             String s = String.valueOf(btn.getText());
                             String substring = s.substring(s.length()-1);
-                            //int position = s.charAt(s.length()-1);
                             int position = Integer.parseInt(substring);
-                            System.out.println(s + " " + position);
 
-                            //Toast.makeText(MemoActivity.this, btn.getId(), Toast.LENGTH_SHORT).show();
                             Toast.makeText(MemoActivity.this, textArray.get(position -1), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -154,37 +158,25 @@ public class MemoActivity extends MySLWTActivity{
                     rl.addView(btn);
                     rl.invalidate();
 
-                    //clear EditText and delete the insert
-                    //editedText.clearText();
-                    //clear the widget (ansonsten wird der alte Text weiterhin verwendet)
-                    widget.clear();
-                    label.setText("");
 
-                    final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
                     scrollView.invalidate();
-
-                    final RelativeLayout relative = (RelativeLayout) findViewById(R.id.rl_notes);
                     relative.invalidate();
 
-
-
-                    //clear EditText and delete the insert
-                    //clear the widget (ansonsten wird der alte Text weiterhin verwendet)
+                    //clear the widget (otherwise the old text is used)
                     editedText.setText("");
                     widget.clear();
                     updateListOfferNotes();
 
+                }else{
+                    Toast.makeText(MemoActivity.this, "Leider kein Speicher mehr frei.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        //was passiert beim Speicher-Button
-        final Button saveBetweenButton = (Button) findViewById(R.id.button_saveBetween);
-        //on click call the BluetoothActivity to choose a listed device
+
         saveBetweenButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-               //TODO: implement method
-                //Übernahme in Label oberhalb des SingleLineWidgets
+                //inherit the text from the widget (SingleLineWidget) to the label above the widget
                 label.setText(widget.getText());
 
                 editedText.setText("");
@@ -193,33 +185,31 @@ public class MemoActivity extends MySLWTActivity{
             }
         });
 
-        //was passiert beim Löschen-Button
-        final Button clearNotesButton = (Button) findViewById(R.id.buttonClearAllNotes);
-        //on click call the BluetoothActivity to choose a listed device
+
         clearNotesButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                //final TextView textanzeige = (TextView) findViewById(R.id.textView_notes);
-
                 //clear EditText and delete the insert
                 editedText.setText("");
                 widget.clear();
                 label.setText("");
-                //textanzeige.setText("eingegebener Text...");
                 updateListOfferNotes();
 
             }
         });
 
-        final ImageButton deleteNotesButton = (ImageButton) findViewById(R.id.buttonDeleteNotes);
-        //on click call the BluetoothActivity to choose a listed device
         deleteNotesButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 removeCharacter(widget);
             }
         });
 
-        final Button holdBackButton = (Button) findViewById(R.id.button_holdBack);
-        //on click call the BluetoothActivity to choose a listed device
+        blankNotesButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                insertWhitespace(widget);
+            }
+        });
+
+
         holdBackButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 //get string from label
@@ -233,8 +223,7 @@ public class MemoActivity extends MySLWTActivity{
             }
         });
 
-        //toggle button allows user to set mode of the NXT device
-        final Button toggleInsertNotes = (Button) findViewById(R.id.toggleInsertNotes);
+
         //disable button initially
         toggleInsertNotes.setEnabled(true);
         //on click change mode
@@ -249,11 +238,9 @@ public class MemoActivity extends MySLWTActivity{
             }
         });
 
-        //toggle button allows user to set mode of the NXT device
-        final Button toggleMemoNotes = (Button) findViewById(R.id.toggleMemoNotes);
+
         //disable button initially
         toggleMemoNotes.setEnabled(false);
-        //on click change mode
         toggleMemoNotes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 boolean checked = ((ToggleButton) v).isChecked();
@@ -266,15 +253,9 @@ public class MemoActivity extends MySLWTActivity{
         });
 
         //change tab -> user press the insert button
-        final Button insertButtonNotes = (Button) findViewById(R.id.toggleInsertNotes);
-        //on click call the BluetoothActivity to choose a listed device
         insertButtonNotes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                //neue MainActivity starten -> aber alte Daten gehen dabei verloren
-                //Intent serverIntent = new Intent(getApplicationContext(),MainActivity.class);
-                //startActivityForResult(serverIntent, REQUEST_SETUP_BT_CONNECTION);
-
-                //alte Daten bleiben erhalten
+                //save the old data from the activity (don't create a new one)
                 onBackPressed();
             }
         });
@@ -292,16 +273,16 @@ public class MemoActivity extends MySLWTActivity{
         String newWord;
 
         if(parent.getId() == R.id.listViewOfferNotes){
-            if(arrayListOfferNotes.get(position).equals("")){
+            if(this.arrayListOfferNotes.get(position).equals("")){
                 //do nothing
                 Toast.makeText(this,  "kein Eintrag vorhanden", Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(this,  arrayListOfferNotes.get(position) + " ausgewählt.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,  this.arrayListOfferNotes.get(position) + " ausgewählt.", Toast.LENGTH_SHORT).show();
             }
 
 
             //change the word in the widget
-            newWord = arrayListOfferNotes.get(position);
+            newWord = this.arrayListOfferNotes.get(position);
             this.replaceWord(this.widget, newWord);
 
         }else{
@@ -312,30 +293,29 @@ public class MemoActivity extends MySLWTActivity{
     @Override
     public void onTextChanged(SingleLineWidgetApi widget, String s, boolean intermediate){
         super.onTextChanged(widget, s, intermediate);
-        //Vorschlagsliste aktualisieren
-        //add elements to arraylistoffer
+        //update listOffer
         updateListOfferNotes();
     }
 
+    /**
+     * This method is called when the listview with offers has to be updated.
+     */
     private void updateListOfferNotes(){
         //clear the current arrayListOfferNotes
-        arrayListOfferNotes.clear();
+        this.arrayListOfferNotes.clear();
 
-        //arrayListLastItem 2 Elemente hinzufügen
+        //add 3 elements to the arrayListLastItem
         if(editedText.getText().equals("")){
             for(int i=0; i<=2; i++){
-                arrayListOfferNotes.add("");
+                this.arrayListOfferNotes.add("");
             }
         }else{
-            this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget_notes);
-            arrayListOfferNotes = getCandidateStrings((SingleLineWidget) findViewById(R.id.singleLine_widget_notes));
-            System.out.println("Methode akzeptiert " + arrayListOfferNotes);
+            this.arrayListOfferNotes = getCandidateStrings(this.widget);
         }
 
 
-        //Referenz auf die View besorgen
-        listViewOfferNotes = (ListView) findViewById(R.id.listViewOfferNotes);
-        adapterOfferNotes = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayListOfferNotes){
+        //get reference to view
+        this.adapterOfferNotes = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, this.arrayListOfferNotes){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
@@ -348,8 +328,8 @@ public class MemoActivity extends MySLWTActivity{
             }
         };
 
-        listViewOfferNotes.setAdapter(adapterOfferNotes);
-        listViewOfferNotes.setOnItemClickListener(this);
+        this.listViewOfferNotes.setAdapter(this.adapterOfferNotes);
+        this.listViewOfferNotes.setOnItemClickListener(this);
 
         this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget_notes);
     }
