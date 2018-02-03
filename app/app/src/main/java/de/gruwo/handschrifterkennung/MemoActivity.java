@@ -22,7 +22,9 @@ import android.widget.ToggleButton;
 import com.myscript.atk.sltw.SingleLineWidget;
 import com.myscript.atk.sltw.SingleLineWidgetApi;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,6 +52,9 @@ public class MemoActivity extends MySLWTActivity{
 
     //Array to save the input (text from the user)
     private ArrayList <String> textArray;
+    
+    //maximum number of memos to save
+//    private int MAX_NUM_MEMOS = 10;
 
 
     public MemoActivity (){
@@ -114,7 +119,8 @@ public class MemoActivity extends MySLWTActivity{
                 if(editedText.getText().equals("") && label.getText().equals("")){
                     Toast.makeText(MemoActivity.this, "Es erfolgte keine Eingabe.", Toast.LENGTH_LONG).show();
                 }else if(numberEntries <= 10) {
-                    saveMemo(label);
+                    String memoString = saveMemoArray(label);
+                    saveMemoFile(memoString);
                     createNewMemoButton(numberEntries, rl, scrollView, relative);
 
                     //clear the widget (otherwise the old text is used)
@@ -216,6 +222,14 @@ public class MemoActivity extends MySLWTActivity{
         });
 
         this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget_notes);
+        
+        //read existing memo files
+        numberEntries = readMemoFiles();
+
+        //create button for each read memo
+        for (int i = 0; i < numberEntries; i++){
+            createNewMemoButton(i, rl, scrollView, relative);
+        }
     }
 
 
@@ -295,15 +309,61 @@ public class MemoActivity extends MySLWTActivity{
 
 
     /**
-     * This method saves a complete memo both as a String object and a file. The String object is
-     * appended to a text array. The file is placed in a directory called "HWR_memos", which is
-     * created (if not already existing) in the system's documents directory. The file is named
-     * "memo[index].txt" where [index] is replaced by an ascending integer, starting from 0.
+     * This method reads all memo files placed in the documents directory's subdirectory "HWR_memos"
+     * named "memo[index].txt" where [index] is an integer within the range [0, 9]. The Strings
+     * read from these files are stored consecutively in {@code textArray}. For each of the files
+     * a memo button is created to make the memo text available for text manipulation.
+     *
+     * @return the number of files that were found and read
+     */
+    public int readMemoFiles(){
+        int i = 0;
+        String root =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString();
+        String memoDirName = "HWR_memos";
+        File memoDir = new File(root + "/" + memoDirName);
+        if (memoDir.exists() == false){
+            Toast.makeText(getApplicationContext(),
+                    "No memo files found!",
+                    Toast.LENGTH_LONG).show();
+            return i;
+        }
+        String memoName;
+        File memo;
+        for (int j = 0; j < ids.size(); j++){
+            memoName = "memo" + j + ".txt";
+            memo = new File(memoDir, memoName);
+            if (memo.exists()){
+                try {
+                    BufferedReader memoReader = new BufferedReader(new FileReader(memo));
+                    String line;
+                    StringBuilder memoString = new StringBuilder();
+                    while ((line = memoReader.readLine()) != null) {
+                        memoString.append(line);
+                        memoString.append('\n');
+                    }
+                    textArray.add(i, memoString.toString());
+                    i++;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        Toast.makeText(getApplicationContext(),
+                i + " memo files found!",
+                Toast.LENGTH_LONG).show();
+        return i;
+    }
+
+
+    /**
+     * Save memo array string.
      *
      * @param label the label holding the current memo text
-     * @return the {@code true}, if file creation was successful, {@code false} otherwise
+     * @return the memo string
      */
-    public boolean saveMemo(TextView label){
+    public String saveMemoArray(TextView label){
         //add text to text array
         String memoString;
         if(label.getText().equals("")){
@@ -314,7 +374,19 @@ public class MemoActivity extends MySLWTActivity{
             memoString = String.valueOf(label.getText()) + "\n" + widget.getText();
         }
         textArray.add(numberEntries, memoString);
-
+        return memoString;
+    }
+    
+    
+    /**
+     * This method saves a complete memo both as a String object and a file. The String object is
+     * appended to a text array. The file is placed in a directory called "HWR_memos", which is
+     * created (if not already existing) in the system's documents directory. The file is named
+     * "memo[index].txt" where [index] is replaced by an ascending integer, starting from 0.
+     *
+     * @return the {@code true}, if file creation was successful, {@code false} otherwise
+     */
+    public boolean saveMemoFile(String memoString){
         //save text as a file
         boolean isSuccessfullySaved = false;
         String root =
