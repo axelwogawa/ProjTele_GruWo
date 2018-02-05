@@ -455,7 +455,7 @@ public class MemoActivity extends MySLWTActivity{
 
         //set the place of the button
         //calculate the yPosition of the button
-        if(n > 1){
+        if(n > 0){
             ySet = ySet + 110;
         }
         btn.setX(xSet);
@@ -474,7 +474,7 @@ public class MemoActivity extends MySLWTActivity{
                 String substring = s.substring(s.length()-1);
                 int position = Integer.parseInt(substring);
 
-                Toast.makeText(MemoActivity.this, textArray.get(position -1), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MemoActivity.this, textArray.get(position), Toast.LENGTH_SHORT).show();
             }
         });
         //add button to view
