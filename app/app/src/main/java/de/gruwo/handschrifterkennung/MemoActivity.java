@@ -464,7 +464,7 @@ public class MemoActivity extends MySLWTActivity{
         //set the colours of the button
         btn.setBackgroundColor(Color.LTGRAY);
         btn.setTextColor(Color.BLACK);
-        btn.setText("Memo " + n);
+        btn.setText("Memo " + (n+1));
 
         //set OnClickListener
         btn.setOnClickListener(new View.OnClickListener() {
