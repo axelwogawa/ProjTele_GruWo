@@ -1,0 +1,15 @@
+==== Quellen ====
+
+  * **[1]**:  Keysers, D.; Deselaers, T.; Rowley, H. A.; Wang, L.; Carbune, V.: Multi-Language Online Handwriting Recognition. IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, Vol. 39, No. 6 (Juni 2017).
+  * **[2]**: PhatWare Corporation: WritePad SDK for Android 5.0. URL:  http://www.phatware.com/index.php?q=page/writepadsdk/android (Stand 27.01.2018).
+  * **[3]**: Paragon Software Group: PenReader Handwriting Recognition Technology. URL: http://handwriting-sdk.com/ (Stand 27.01.2018).
+  * **[4]**: Hewlett-Packard Company: Lipi Toolkit. URL: http://lipitk.sourceforge.net/lipi-toolkit.htm (Stand 27.01.2018).
+  * **[5]**: Arvo, J. et al.; Zanibbi, R.; Blostein, D.; Cordy, J. R.: Java Interactive Mathematical Handwriting Recognizer. URL: http://jimhr.sourceforge.net/ (Stand 27.01.2018).
+  * **[6]**: MyScript: MyScript Developer Kits. URL: https://myscript.com/technology/#developer-kits (Stand 27.01.2018).
+  * **[7]**: MyScript: MyScript Developer. URL: https://developer.myscript.com/ (Stand 27.01.2018).
+  * **[8]**: MyScript: MyScript Single Line Widget. URL: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html (Stand 27.01.2018).
+  * **[9]**: MyScript: Package com.myscript.atk.sltw (Single Line Widget API). URL: https://developer.myscript.com/old-docs/atk/2.2/android/_/sltw/ref/javadoc/index.html (Stand 27.01.2018).
+  * **[10]**: MyScript: Getting started on Android. URL: https://developer.myscript.com/getting-started/android (Stand 27.01.2018).
+  * **[11]**: MyScript: Recognition Assets. URL: https://developer.myscript.com/support/recognition-assets (Stand 27.01.2018).
+  * **[12]**: Evernote Corporation: Android - Evernote Developers. URL: https://dev.evernote.com/doc/articles/android_intents.php (Stand 27.01.2018).
+

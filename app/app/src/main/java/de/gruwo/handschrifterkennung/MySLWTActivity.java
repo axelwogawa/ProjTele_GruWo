@@ -121,7 +121,7 @@ public class MySLWTActivity
 
         //margin setting must wait until now, because earlier the widget width is still 0.0 (due to
         //unfinished layout process)
-        float margin = (float)(((SingleLineWidget) widget).getWidth()*0.4);
+        float margin = (float)(((SingleLineWidget) widget).getWidth()*0.2);
         this.widget.setAutoScrollMargin(margin);
 
         Toast.makeText(getApplicationContext(), "Single Line Widget Configured",
@@ -490,8 +490,17 @@ public class MySLWTActivity
         this.widget.configure("de_DE", "cur_text");
         //CITATION_END
 
-        //Set number of alternative word suggestions to 3
+        //Set behaviour of the MyScript widget
         this.widget.setWordCandidateListSize(3);
+        int delayWhenNearlyEmpty = 2000;    //default: 3200
+        int delayWhenNearlyFull = 1500;     //default: 600
+        this.widget.setAutoScrollDelays(delayWhenNearlyEmpty, delayWhenNearlyFull);
+        delayWhenNearlyEmpty = 1000;    //default: 1000
+        //this value is bigger, because the user might want to change text in the very beginning
+        //(e.g. placing i-dot) after finishing writing -> takes longer time, if widget is nearly
+        //full:
+        delayWhenNearlyFull = 1500;     //default: 3600
+        this.widget.setAutoTypesetDelays(delayWhenNearlyEmpty, delayWhenNearlyFull);
 
         //set appearance of the MyScript widget
         this.widget.setLeftScrollArrowResource(R.drawable.sltw_arrowleft_xml);

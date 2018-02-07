@@ -3,6 +3,7 @@ package de.gruwo.handschrifterkennung;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,11 @@ import android.widget.ToggleButton;
 import com.myscript.atk.sltw.SingleLineWidget;
 import com.myscript.atk.sltw.SingleLineWidgetApi;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import de.gruwo.handschrifterkennung.business.hwr.EditedText;
@@ -34,6 +40,7 @@ public class MemoActivity extends MySLWTActivity{
     final int REQUEST_SETUP_BT_CONNECTION = 1;
 
     private int numberEntries;
+    private final ArrayList<Integer> ids;// = new ArrayList<>();
 
     private float xSet = 80;
     private float ySet = 20;
@@ -45,6 +52,28 @@ public class MemoActivity extends MySLWTActivity{
 
     //Array to save the input (text from the user)
     private ArrayList <String> textArray;
+    
+    //maximum number of memos to save
+//    private int MAX_NUM_MEMOS = 10;
+
+
+    public MemoActivity (){
+        super();
+        //set int-values of the ID
+        this.ids = new ArrayList<>();
+        ids.add(0, R.id.button_Memo1);
+        ids.add(1, R.id.button_Memo2);
+        ids.add(2, R.id.button_Memo3);
+        ids.add(3, R.id.button_Memo4);
+        ids.add(4, R.id.button_Memo5);
+        ids.add(5, R.id.button_Memo6);
+        ids.add(6, R.id.button_Memo7);
+        ids.add(7, R.id.button_Memo8);
+        ids.add(8, R.id.button_Memo9);
+        ids.add(9, R.id.button_Memo10);
+//        ids.add(9, R.id.button_Memo11);
+    }
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,22 +97,6 @@ public class MemoActivity extends MySLWTActivity{
         this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget_notes);
         final RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayout_notes);
 
-
-
-        //set int-values of the ID
-        final ArrayList<Integer> ids = new ArrayList<>();
-        ids.add(0, R.id.button_Memo1);
-        ids.add(1, R.id.button_Memo2);
-        ids.add(2, R.id.button_Memo3);
-        ids.add(3, R.id.button_Memo4);
-        ids.add(4, R.id.button_Memo5);
-        ids.add(5, R.id.button_Memo6);
-        ids.add(6, R.id.button_Memo7);
-        ids.add(7, R.id.button_Memo8);
-        ids.add(8, R.id.button_Memo9);
-        ids.add(9, R.id.button_Memo10);
-        ids.add(9, R.id.button_Memo11);
-
         //initialisze the counter
         this.numberEntries = 0;
 
@@ -93,8 +106,6 @@ public class MemoActivity extends MySLWTActivity{
         //initialize listView for offers
         updateListOfferNotes();
 
-
-
         //setup the buttons
         backButtonNotes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
@@ -103,68 +114,18 @@ public class MemoActivity extends MySLWTActivity{
             }
         });
 
-
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 if(editedText.getText().equals("") && label.getText().equals("")){
                     Toast.makeText(MemoActivity.this, "Es erfolgte keine Eingabe.", Toast.LENGTH_LONG).show();
                 }else if(numberEntries <= 10) {
-                    //create a new button
-                    Button btn = new Button(MemoActivity.this);
-                    btn.setWidth(50);
-                    btn.setHeight(25);
-                    btn.setId(ids.get(numberEntries));
-
-                    //add text to button
-                    if(label.getText().equals("")){
-                        textArray.add(numberEntries, widget.getText());
-                    }else if(widget.getText().equals("")){
-                        textArray.add(numberEntries, String.valueOf(label.getText()));
-                    }else{
-                        String string1 = String.valueOf(label.getText());
-                        String string2 = widget.getText();
-
-                        textArray.add(numberEntries, string1 + " " + string2);
-                    }
-
-                    //increment counter
-                    numberEntries++;
-
-                    //set the place of the button
-                    //calculatethe yPosition of the button
-                    if(numberEntries > 1){
-                        ySet = ySet + 110;
-                    }
-                    btn.setX(xSet);
-                    btn.setY(ySet);
-
-                    //set the colours of the button
-                    btn.setBackgroundColor(Color.LTGRAY);
-                    btn.setTextColor(Color.BLACK);
-                    btn.setText("Memo " + numberEntries);
-
-                    //set OnClickListener
-                    btn.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View view) {
-                            Button btn = (Button) findViewById(view.getId());
-                            String s = String.valueOf(btn.getText());
-                            String substring = s.substring(s.length()-1);
-                            int position = Integer.parseInt(substring);
-
-                            Toast.makeText(MemoActivity.this, textArray.get(position -1), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    //add button to view
-                    rl.addView(btn);
-                    rl.invalidate();
-
-
-                    scrollView.invalidate();
-                    relative.invalidate();
+                    String memoString = saveMemoArray(label);
+                    saveMemoFile(memoString);
+                    createNewMemoButton(numberEntries, rl, scrollView, relative);
 
                     //clear the widget (otherwise the old text is used)
                     editedText.setText("");
-                    widget.clear();
+                    clearContent(widget);
                     updateListOfferNotes();
 
                 }else{
@@ -261,12 +222,22 @@ public class MemoActivity extends MySLWTActivity{
         });
 
         this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget_notes);
+        
+        //read existing memo files
+        numberEntries = readMemoFiles();
+
+        //create button for each read memo
+        for (int i = 0; i < numberEntries; i++){
+            createNewMemoButton(i, rl, scrollView, relative);
+        }
     }
+
 
     @Override
     public void onBackPressed(){
         super.onBackPressed();
     }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -290,12 +261,14 @@ public class MemoActivity extends MySLWTActivity{
         }
     }
 
+
     @Override
     public void onTextChanged(SingleLineWidgetApi widget, String s, boolean intermediate){
         super.onTextChanged(widget, s, intermediate);
         //update listOffer
         updateListOfferNotes();
     }
+
 
     /**
      * This method is called when the listview with offers has to be updated.
@@ -332,6 +305,186 @@ public class MemoActivity extends MySLWTActivity{
         this.listViewOfferNotes.setOnItemClickListener(this);
 
         this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget_notes);
+    }
+
+
+    /**
+     * This method reads all memo files placed in the documents directory's subdirectory "HWR_memos"
+     * named "memo[index].txt" where [index] is an integer within the range [0, 9]. The Strings
+     * read from these files are stored consecutively in {@code textArray}. For each of the files
+     * a memo button is created to make the memo text available for text manipulation.
+     *
+     * @return the number of files that were found and read
+     */
+    public int readMemoFiles(){
+        int i = 0;
+        String root =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString();
+        String memoDirName = "HWR_memos";
+        File memoDir = new File(root + "/" + memoDirName);
+        if (memoDir.exists() == false){
+            Toast.makeText(getApplicationContext(),
+                    "No memo files found!",
+                    Toast.LENGTH_LONG).show();
+            return i;
+        }
+        String memoName;
+        File memo;
+        for (int j = 0; j < ids.size(); j++){
+            memoName = "memo" + j + ".txt";
+            memo = new File(memoDir, memoName);
+            if (memo.exists()){
+                try {
+                    BufferedReader memoReader = new BufferedReader(new FileReader(memo));
+                    String line;
+                    StringBuilder memoString = new StringBuilder();
+                    while ((line = memoReader.readLine()) != null) {
+                        memoString.append(line);
+                        memoString.append('\n');
+                    }
+                    textArray.add(i, memoString.toString());
+                    i++;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        Toast.makeText(getApplicationContext(),
+                i + " memo files found!",
+                Toast.LENGTH_LONG).show();
+        return i;
+    }
+
+
+    /**
+     * Save memo array string.
+     *
+     * @param label the label holding the current memo text
+     * @return the memo string
+     */
+    public String saveMemoArray(TextView label){
+        //add text to text array
+        String memoString;
+        if(label.getText().equals("")){
+            memoString = widget.getText();
+        }else if(widget.getText().equals("")){
+            memoString = String.valueOf(label.getText());
+        }else{
+            memoString = String.valueOf(label.getText()) + "\n" + widget.getText();
+        }
+        textArray.add(numberEntries, memoString);
+        return memoString;
+    }
+    
+    
+    /**
+     * This method saves a complete memo both as a String object and a file. The String object is
+     * appended to a text array. The file is placed in a directory called "HWR_memos", which is
+     * created (if not already existing) in the system's documents directory. The file is named
+     * "memo[index].txt" where [index] is replaced by an ascending integer, starting from 0.
+     *
+     * @return the {@code true}, if file creation was successful, {@code false} otherwise
+     */
+    public boolean saveMemoFile(String memoString){
+        //save text as a file
+        boolean isSuccessfullySaved = false;
+        String root =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString();
+        String memoDirName = "HWR_memos";
+        File memoDir = new File(root + "/" + memoDirName);
+        if (memoDir.exists() == false){
+            if (memoDir.mkdirs() == false){
+                Toast.makeText(getApplicationContext(),
+                        "Directory couldn't be created!",
+                        Toast.LENGTH_LONG).show();
+                return isSuccessfullySaved;
+            }
+        }
+        String memoName = "memo" + numberEntries + ".txt";
+        File memo = new File(memoDir, memoName);
+        if (memo.exists()){
+            Toast.makeText(getApplicationContext(),
+                    "Memo file already exists and will be overwritten!",
+                    Toast.LENGTH_LONG).show();
+            memo.delete();
+        }
+        try{
+            memo.createNewFile();
+            FileWriter memoWriter = new FileWriter(memo);
+            memoWriter.write(memoString);
+            memoWriter.flush();
+            memoWriter.close();
+            isSuccessfullySaved = true;
+            Toast.makeText(getApplicationContext(),
+                    "Memo file saved as memo" + numberEntries + ".txt",
+                    Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),
+                    "Memo file could not be saved!",
+                    Toast.LENGTH_LONG).show();
+        }
+
+        //increment counter
+        numberEntries++;
+
+        return isSuccessfullySaved;
+    }
+
+
+    //TODO add info to scrollView and relative (what's the difference between rl and relative?)
+    /**
+     * This method creates a new button for a saved memo and labels the button with the memo index.
+     * The memo index is an integer ascending as a new memo is being saved.
+     *
+     * @param rl         the relative layout the butten is to be placed in
+     * @param scrollView ???
+     * @param relative   ???
+     * @return {@code true}, if the button was successfully created
+     */
+    public boolean createNewMemoButton(int n,
+                                       RelativeLayout rl,
+                                       ScrollView scrollView,
+                                       RelativeLayout relative){
+        //create a new button
+        Button btn = new Button(MemoActivity.this);
+        btn.setWidth(50);
+        btn.setHeight(25);
+        btn.setId(ids.get(n));
+
+        //set the place of the button
+        //calculate the yPosition of the button
+        if(n > 0){
+            ySet = ySet + 110;
+        }
+        btn.setX(xSet);
+        btn.setY(ySet);
+
+        //set the colours of the button
+        btn.setBackgroundColor(Color.LTGRAY);
+        btn.setTextColor(Color.BLACK);
+        btn.setText("Memo " + n);
+
+        //set OnClickListener
+        btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Button btn = (Button) findViewById(view.getId());
+                String s = String.valueOf(btn.getText());
+                String substring = s.substring(s.length()-1);
+                int position = Integer.parseInt(substring);
+
+                Toast.makeText(MemoActivity.this, textArray.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
+        //add button to view
+        rl.addView(btn);
+        rl.invalidate();
+
+        scrollView.invalidate();
+        relative.invalidate();
+
+        return true;
     }
     
 }

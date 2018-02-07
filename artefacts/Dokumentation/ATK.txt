@@ -1,0 +1,9 @@
+==== Das MyScript Application Toolkit (ATK) ====
+
+Hier wird kurz auf Struktur, prinzipielle Funktionsweise und einige Dinge zur Verwendung der ausgewählten Software eingegangen.
+
+Das ATK kann entsprechend der Anleitung unter [[start#Quellennachweis und Literaturverzeichnis|[10]]] von einem //GitHub//-Repository geklont werden. Man erhält so die gesamte HWR-Business-Logik in Form von kompilierten //.aar//-Binärdateien sowie eine Reihe von ausführbaren Beispielapplikationen, die die Funktionsweise aller fünf enthaltenen Widgets (//Single Character Widget, Single Line Widget, Math Widget, Geometry Widget, Diagram-Widget//) zeigen. ((S. auch [[start#Quellennachweis und Literaturverzeichnis|[8]]], vier Links in erster Zeile)) Um eine Applikation starten zu können, muss allerdings ein gültiges Zertifikat auf dem entsprechenden Gerät abgelegt werden. Zertifikate sind über das sog. //ATK-Dashboard// downloadbar, zu dem man Zugang hat, sobald man einen Developer-Account angelegt hat. Vor dem Download eines Zertifikat muss dort angegeben werden, für welche Applikation (Company ID) dieses verwendet werden soll. Beim ersten Start einer ATK-Anwendung auf einem Gerät mit neuer Lizenz wird das Zertifikat registriert.((Dafür ist ein Internet-Zugang nötig. Eine Applikation kann zunächst auch ohne Internetzugang gestartet werden. Das Zertifikat muss allerdings innerhalb der ersten 30 Tage nach dem ersten Start der Applikation erfolgreich registriert worden sein. (Vgl. [[start#Quellennachweis und Literaturverzeichnis|[8]]]) )) Die ersten 40 derartigen Registrierungen sind generell kostenfrei, darüber hinaus fallen Lizenzgebühren an.
+
+API, Widget-Funktionalität
+
+Ressourcen

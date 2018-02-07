@@ -6,6 +6,9 @@
     application needs to get internet access within a grace perion of 30 days after the first
     launch; if no internet connection is granted within that time, the app won't work any longer-->
     <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!--allow file system access to enable saving files-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
