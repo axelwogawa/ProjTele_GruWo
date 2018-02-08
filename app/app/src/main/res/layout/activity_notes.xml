@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/textView_notes"
         android:layout_width="750dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_below="@+id/buttonBackNotes"
         android:layout_marginLeft="50dp"
         android:layout_marginStart="50dp"
@@ -63,10 +63,10 @@
         android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/listViewOfferNotes"
+        android:layout_alignEnd="@+id/singleLine_widget_notes"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/listViewOfferNotes"
-        android:layout_marginBottom="161dp"
+        android:layout_alignRight="@+id/singleLine_widget_notes"
+        android:layout_marginBottom="90dp"
         android:text="Speichern" />
 
     <Button
@@ -75,8 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/button_saveBetween"
         android:layout_alignBottom="@+id/button_saveBetween"
-        android:layout_alignLeft="@+id/listViewOfferNotes"
-        android:layout_alignStart="@+id/listViewOfferNotes"
+        android:layout_alignLeft="@+id/singleLine_widget_notes"
+        android:layout_alignStart="@+id/singleLine_widget_notes"
         android:text="alles löschen" />
 
     <ImageButton
@@ -100,7 +100,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_below="@id/textView_notes"
-        android:layout_marginBottom="220dp"
+        android:layout_marginBottom="150dp"
         android:layout_marginLeft="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="100dp"
@@ -108,7 +108,7 @@
         android:ems="10"
         android:hint="Text eingeben..." />
 
-    <ListView
+    <!--<ListView
         android:id="@+id/listViewOfferNotes"
         android:layout_width="750dp"
         android:layout_height="match_parent"
@@ -118,7 +118,7 @@
         android:layout_marginTop="480dp"
         android:fadeScrollbars="false"/>
 
-
+-->
 
 
     <ScrollView
@@ -167,5 +167,44 @@
         android:layout_toStartOf="@+id/button_holdBack"
         android:layout_toLeftOf="@+id/button_holdBack"
         android:text="Leerzeichen" />
+
+    <TextView
+        android:id="@+id/textView_offer1"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/singleLine_widget_notes"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/singleLine_widget_notes"
+        android:layout_marginBottom="20dp"
+        android:textSize="20sp"
+        android:text="Vorschlag 1"
+        android:onClick="onClick"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/textView_offer2"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_toRightOf="@+id/textView_offer1"
+        android:layout_toEndOf="@+id/textView_offer1"
+        android:textSize="20sp"
+        android:text="Vorschlag 2"
+        android:onClick="onClick"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/textView_offer3"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_toRightOf="@+id/textView_offer2"
+        android:layout_toEndOf="@+id/textView_offer2"
+        android:textSize="20sp"
+        android:text="Vorschlag 3"
+        android:onClick="onClick"
+        android:clickable="true"/>
 
 </RelativeLayout>

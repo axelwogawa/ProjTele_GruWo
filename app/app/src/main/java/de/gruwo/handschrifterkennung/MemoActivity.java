@@ -40,18 +40,21 @@ public class MemoActivity extends MySLWTActivity{
     final int REQUEST_SETUP_BT_CONNECTION = 1;
 
     private int numberEntries;
-    private final ArrayList<Integer> ids;// = new ArrayList<>();
+    private final ArrayList<Integer> ids;
+    // = new ArrayList<>();
 
     private float xSet = 80;
     private float ySet = 20;
 
-    //to show the items of the list
-    private ListView listViewOfferNotes;
-    private ArrayList<String> arrayListOfferNotes = new ArrayList<>();
-    private ArrayAdapter adapterOfferNotes = null;
 
     //Array to save the input (text from the user)
     private ArrayList <String> textArray;
+
+    //labels for offers
+    private TextView offer1, offer2, offer3;
+
+    //um letzte Zeile zurück ins Widget zu holen
+    String lastRow, otherText;
     
     //maximum number of memos to save
 //    private int MAX_NUM_MEMOS = 10;
@@ -93,9 +96,15 @@ public class MemoActivity extends MySLWTActivity{
         final Button toggleInsertNotes = (Button) findViewById(R.id.toggleInsertNotes);
         final Button toggleMemoNotes = (Button) findViewById(R.id.toggleMemoNotes);
         final Button insertButtonNotes = (Button) findViewById(R.id.toggleInsertNotes);
-        listViewOfferNotes = (ListView) findViewById(R.id.listViewOfferNotes);
         this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget_notes);
         final RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayout_notes);
+
+        offer1 = (TextView) findViewById(R.id.textView_offer1);
+        offer2 = (TextView) findViewById(R.id.textView_offer2);
+        offer3 = (TextView) findViewById(R.id.textView_offer3);
+
+        lastRow = "";
+        otherText = "";
 
         //initialisze the counter
         this.numberEntries = 0;
@@ -123,9 +132,14 @@ public class MemoActivity extends MySLWTActivity{
                     saveMemoFile(memoString);
                     createNewMemoButton(numberEntries, rl, scrollView, relative);
 
+                    //label-Instanzen zurücksetzen
+                    lastRow="";
+                    otherText="";
+
                     //clear the widget (otherwise the old text is used)
                     editedText.setText("");
                     clearContent(widget);
+                    label.setText("");
                     updateListOfferNotes();
 
                 }else{
@@ -137,8 +151,22 @@ public class MemoActivity extends MySLWTActivity{
 
         saveBetweenButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                //inherit the text from the widget (SingleLineWidget) to the label above the widget
-                label.setText(widget.getText());
+                String text="";
+                if(label.getText().equals("")){
+                    //inherit the text from the widget (SingleLineWidget) to the label above the widget
+                    label.setText(widget.getText());
+                    lastRow = widget.getText();
+                }else{
+                    text = String.valueOf(label.getText());
+                    otherText = text;
+
+                    //neue Zeile hinzufügen
+                    text = text + " " + widget.getText();
+                    label.setText(text);
+                    lastRow = widget.getText();
+
+                }
+
 
                 editedText.setText("");
                 widget.clear();
@@ -174,13 +202,21 @@ public class MemoActivity extends MySLWTActivity{
         holdBackButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 //get string from label
-                String stringHold = String.valueOf(label.getText());
+                //String stringHold = String.valueOf(label.getText());
 
-                //set text in widget
-                widget.setText(stringHold);
+                if(lastRow.equals("")){
+                    Toast.makeText(MemoActivity.this, "Nur einmal Zurückholen möglich.", Toast.LENGTH_SHORT).show();
+                }else{
+                    //set text in widget
+                    widget.setText(lastRow);
 
-                //clear label
-                label.setText("");
+                    //clear label
+                    label.setText(otherText);
+
+                    //nur einmal zurückholen möglich
+                    lastRow="";
+                }
+
             }
         });
 
@@ -239,7 +275,7 @@ public class MemoActivity extends MySLWTActivity{
     }
 
 
-    @Override
+   /* @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String newWord;
 
@@ -260,13 +296,14 @@ public class MemoActivity extends MySLWTActivity{
             Toast.makeText(this, "Keine Liste ausgewählt.", Toast.LENGTH_SHORT).show();
         }
     }
-
+*/
 
     @Override
     public void onTextChanged(SingleLineWidgetApi widget, String s, boolean intermediate){
         super.onTextChanged(widget, s, intermediate);
         //update listOffer
         updateListOfferNotes();
+
     }
 
 
@@ -274,35 +311,22 @@ public class MemoActivity extends MySLWTActivity{
      * This method is called when the listview with offers has to be updated.
      */
     private void updateListOfferNotes(){
-        //clear the current arrayListOfferNotes
-        this.arrayListOfferNotes.clear();
 
         //add 3 elements to the arrayListLastItem
         if(editedText.getText().equals("")){
-            for(int i=0; i<=2; i++){
-                this.arrayListOfferNotes.add("");
-            }
-        }else{
-            this.arrayListOfferNotes = getCandidateStrings(this.widget);
+           offer1.setText("");
+           offer2.setText("");
+           offer3.setText("");
+        }else if(getCandidateStrings(this.widget).size() == 3){
+            offer1.setText(getCandidateStrings(this.widget).get(0));
+            offer2.setText(getCandidateStrings(this.widget).get(1));
+            offer3.setText(getCandidateStrings(this.widget).get(2));
+        }else if(getCandidateStrings(this.widget).size() == 2){
+            offer1.setText(getCandidateStrings(this.widget).get(0));
+            offer2.setText(getCandidateStrings(this.widget).get(1));
+        }else if(getCandidateStrings(this.widget).size() == 1){
+            offer1.setText(getCandidateStrings(this.widget).get(0));
         }
-
-
-        //get reference to view
-        this.adapterOfferNotes = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, this.arrayListOfferNotes){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view =super.getView(position, convertView, parent);
-
-                TextView textView=(TextView) view.findViewById(android.R.id.text1);
-
-                textView.setTextColor(Color.BLACK);
-
-                return view;
-            }
-        };
-
-        this.listViewOfferNotes.setAdapter(this.adapterOfferNotes);
-        this.listViewOfferNotes.setOnItemClickListener(this);
 
         this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget_notes);
     }
@@ -371,7 +395,7 @@ public class MemoActivity extends MySLWTActivity{
         }else if(widget.getText().equals("")){
             memoString = String.valueOf(label.getText());
         }else{
-            memoString = String.valueOf(label.getText()) + "\n" + widget.getText();
+            memoString = String.valueOf(label.getText()) + " " + widget.getText();
         }
         textArray.add(numberEntries, memoString);
         return memoString;
@@ -472,6 +496,7 @@ public class MemoActivity extends MySLWTActivity{
                 Button btn = (Button) findViewById(view.getId());
                 String s = String.valueOf(btn.getText());
                 String substring = s.substring(s.length()-1);
+                System.out.println(substring);
                 int position = Integer.parseInt(substring);
 
                 Toast.makeText(MemoActivity.this, textArray.get(position), Toast.LENGTH_SHORT).show();
@@ -486,5 +511,41 @@ public class MemoActivity extends MySLWTActivity{
 
         return true;
     }
-    
+
+
+    /**
+     * what happens when someone click on the textview below the singleLineWidget
+     * @param v
+     */
+    public void onClick(View v) {
+
+        String newWord = "";
+
+            if(v.getId() == R.id.textView_offer1){
+                Toast.makeText(MemoActivity.this, offer1.getText(), Toast.LENGTH_SHORT).show();
+                newWord = String.valueOf(offer1.getText());
+
+                //change the word in the widget
+                this.replaceWord(this.widget, newWord);
+
+            }else if(v.getId() == R.id.textView_offer2){
+                Toast.makeText(MemoActivity.this, offer2.getText(), Toast.LENGTH_SHORT).show();
+                newWord = String.valueOf(offer2.getText());
+
+                //change the word in the widget
+                this.replaceWord(this.widget, newWord);
+
+            }else if(v.getId() == R.id.textView_offer3){
+                Toast.makeText(MemoActivity.this, offer3.getText(), Toast.LENGTH_SHORT).show();
+                newWord = String.valueOf(offer3.getText());
+
+                //change the word in the widget
+                this.replaceWord(this.widget, newWord);
+            }else{
+                Toast.makeText(MemoActivity.this, "Kein Label angeklickt.", Toast.LENGTH_SHORT).show();
+            }
+
+
+    }
+
 }
