@@ -131,7 +131,7 @@ public class MainActivity extends MySLWTActivity{
 
         clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                clearContent(widget);
+                widget.clear();
             }
         });
 

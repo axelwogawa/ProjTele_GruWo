@@ -393,16 +393,6 @@ public class MySLWTActivity
 
 
     /**
-     * Clear content of the MyScript SingleLineWidget.
-     *
-     * @param widget the MyScript SingleLineWidget
-     */
-    public void clearContent(SingleLineWidgetApi widget){
-        widget.clear();
-    }
-
-
-    /**
      * Insert whitespace character at the current cursor position of the MyScript SingleLineWidget.
      *
      * @param widget the MyScript SingleLineWidget

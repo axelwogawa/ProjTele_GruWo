@@ -171,6 +171,10 @@ public class EditedText {
                     break;
             }
 
+            if (i>=this.wordList.size()){
+                updateStartIndices = false;
+            }
+
             if (updateStartIndices) {
                 if (i>0
                     && (this.wordList.get(i-1).getEndIndex()+1) == this.wordList.get(i).getStartIndex()) {

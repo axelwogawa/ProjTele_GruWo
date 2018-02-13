@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,7 +42,7 @@ public class MemoActivity extends MySLWTActivity{
     //request code
     final int REQUEST_SETUP_BT_CONNECTION = 1;
 
-    private int numberEntries;
+    private int textSelectionStart, textSelectionEnd;
     private final ArrayList<Integer> ids;
     // = new ArrayList<>();
 
@@ -54,7 +57,9 @@ public class MemoActivity extends MySLWTActivity{
     private TextView offer1, offer2, offer3;
 
     //um letzte Zeile zurück ins Widget zu holen
-    String lastRow, otherText;
+    private String lastRow, otherText, selectedText;
+
+    private boolean editMode;
     
     //maximum number of memos to save
 //    private int MAX_NUM_MEMOS = 10;
@@ -103,11 +108,8 @@ public class MemoActivity extends MySLWTActivity{
         offer2 = (TextView) findViewById(R.id.textView_offer2);
         offer3 = (TextView) findViewById(R.id.textView_offer3);
 
-        lastRow = "";
-        otherText = "";
-
-        //initialisze the counter
-        this.numberEntries = 0;
+//        lastRow = "";
+//        otherText = "";
 
         //initialize textArray
         this.textArray = new ArrayList<>();
@@ -123,23 +125,74 @@ public class MemoActivity extends MySLWTActivity{
             }
         });
 
+        //large parts of the code of this callback were copied from
+        //https://stackoverflow.com/questions/22832123/get-selected-text-from-textview#22833303
+        label.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                // Remove the "select all" option
+                menu.removeItem(android.R.id.selectAll);
+                // Remove the "cut" option
+                menu.removeItem(android.R.id.cut);
+                // Remove the "copy all" option
+                menu.removeItem(android.R.id.copy);
+                menu.removeItem(android.R.id.shareText);
+                return true;
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                menu.add(0, 0, 0, "Zum Bearbeiten auswählen");
+                return true;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {}
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                if (editMode){
+                    Toast.makeText(MemoActivity.this, "Zuerst bearbeiteten Text übernehmen",
+                            Toast.LENGTH_LONG).show();
+                    return false;
+                }
+                int min = 0;
+                int max = label.getText().length();
+                if (label.isFocused()) {
+                    textSelectionStart = label.getSelectionStart();
+                    textSelectionEnd = label.getSelectionEnd();
+                }
+                textSelectionStart = Math.max(min, textSelectionStart);
+                textSelectionEnd = Math.min(max, textSelectionEnd);
+                selectedText = String.valueOf(label.getText().subSequence(textSelectionStart,
+                        textSelectionEnd));
+                mode.finish();
+//                mode.getMenu().close();
+                return true;
+            }
+        });
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 if(editedText.getText().equals("") && label.getText().equals("")){
                     Toast.makeText(MemoActivity.this, "Es erfolgte keine Eingabe.", Toast.LENGTH_LONG).show();
-                }else if(numberEntries <= 10) {
+                }else if(textArray.size() <= 10) {
                     String memoString = saveMemoArray(label);
                     saveMemoFile(memoString);
-                    createNewMemoButton(numberEntries, rl, scrollView, relative);
+                    createNewMemoButton(textArray.size()-1, rl, scrollView, relative);
 
                     //label-Instanzen zurücksetzen
-                    lastRow="";
-                    otherText="";
+//                    lastRow="";
+//                    otherText="";
 
                     //clear the widget (otherwise the old text is used)
                     editedText.setText("");
-                    clearContent(widget);
+                    widget.clear();
                     label.setText("");
+                    selectedText = "";
+                    textSelectionStart = 0;
+                    textSelectionEnd = 0;
+                    editMode = false;
                     updateListOfferNotes();
 
                 }else{
@@ -148,32 +201,42 @@ public class MemoActivity extends MySLWTActivity{
             }
         });
 
-
         saveBetweenButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                String text="";
-                if(label.getText().equals("")){
+//                String text="";
+                if (editMode){
+                    String newText = String.valueOf(label.getText());
+                    newText = newText.substring(0, textSelectionStart) + widget.getText()
+                            + newText.substring(textSelectionStart+1);
+                    label.setText(newText);
+                } else if(String.valueOf(label.getText()).equals("")){
                     //inherit the text from the widget (SingleLineWidget) to the label above the widget
-                    label.setText(widget.getText());
-                    lastRow = widget.getText();
+//                    label.setText(widget.getText());
+                    label.append(widget.getText());
+//                    lastRow = widget.getText();
                 }else{
-                    text = String.valueOf(label.getText());
-                    otherText = text;
+                    label.append("\n"+widget.getText());
+
+//                    text = String.valueOf(label.getText());
+//                    otherText = text;
 
                     //neue Zeile hinzufügen
-                    text = text + " " + widget.getText();
-                    label.setText(text);
-                    lastRow = widget.getText();
+//                    text = text + " " + widget.getText();
+//                    label.setText(text);
+//                    lastRow = widget.getText();
 
                 }
 
 
                 editedText.setText("");
                 widget.clear();
+                selectedText = "";
+                textSelectionStart = 0;
+                textSelectionEnd = 0;
+                editMode = false;
                 updateListOfferNotes();
             }
         });
-
 
         clearNotesButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
@@ -181,6 +244,10 @@ public class MemoActivity extends MySLWTActivity{
                 editedText.setText("");
                 widget.clear();
                 label.setText("");
+                selectedText = "";
+                textSelectionStart = 0;
+                textSelectionEnd = 0;
+                editMode = false;
                 updateListOfferNotes();
 
             }
@@ -203,20 +270,33 @@ public class MemoActivity extends MySLWTActivity{
             public void onClick(View v){
                 //get string from label
                 //String stringHold = String.valueOf(label.getText());
-
-                if(lastRow.equals("")){
+//                if(lastRow.equals("")){
+                if (editMode){
                     Toast.makeText(MemoActivity.this, "Nur einmal Zurückholen möglich.", Toast.LENGTH_SHORT).show();
                 }else{
+                    editMode = true;
+                    String editText = "";
+                    if (selectedText.equals("")){
+                        editText = String.valueOf(label.getText());
+                        textSelectionStart = editText.lastIndexOf('\n')+1;
+                        editText = editText.substring(textSelectionStart);
+                        textSelectionEnd = textSelectionStart + editText.length();
+                    } else {
+                        editText = selectedText;
+                    }
+                    String newText = String.valueOf(label.getText());
+                    newText = newText.substring(0, textSelectionStart) + "_" +
+                            newText.substring(textSelectionEnd);
+                    label.setText(newText);
                     //set text in widget
-                    widget.setText(lastRow);
+                    widget.setText(editText);
 
                     //clear label
-                    label.setText(otherText);
+//                    label.setText(otherText);
 
                     //nur einmal zurückholen möglich
-                    lastRow="";
+//                    lastRow="";
                 }
-
             }
         });
 
@@ -260,10 +340,10 @@ public class MemoActivity extends MySLWTActivity{
         this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget_notes);
         
         //read existing memo files
-        numberEntries = readMemoFiles();
+        readMemoFiles();
 
         //create button for each read memo
-        for (int i = 0; i < numberEntries; i++){
+        for (int i = 0; i < this.textArray.size(); i++){
             createNewMemoButton(i, rl, scrollView, relative);
         }
     }
@@ -395,9 +475,9 @@ public class MemoActivity extends MySLWTActivity{
         }else if(widget.getText().equals("")){
             memoString = String.valueOf(label.getText());
         }else{
-            memoString = String.valueOf(label.getText()) + " " + widget.getText();
+            memoString = String.valueOf(label.getText()) + "\n" + widget.getText();
         }
-        textArray.add(numberEntries, memoString);
+        textArray.add(this.textArray.size()-1, memoString);
         return memoString;
     }
     
@@ -425,7 +505,7 @@ public class MemoActivity extends MySLWTActivity{
                 return isSuccessfullySaved;
             }
         }
-        String memoName = "memo" + numberEntries + ".txt";
+        String memoName = "memo" + this.textArray.size() + ".txt";
         File memo = new File(memoDir, memoName);
         if (memo.exists()){
             Toast.makeText(getApplicationContext(),
@@ -441,17 +521,13 @@ public class MemoActivity extends MySLWTActivity{
             memoWriter.close();
             isSuccessfullySaved = true;
             Toast.makeText(getApplicationContext(),
-                    "Memo file saved as memo" + numberEntries + ".txt",
-                    Toast.LENGTH_LONG).show();
+                    "Memo file saved as " + memoName, Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
                     "Memo file could not be saved!",
                     Toast.LENGTH_LONG).show();
         }
-
-        //increment counter
-        numberEntries++;
 
         return isSuccessfullySaved;
     }
@@ -462,7 +538,8 @@ public class MemoActivity extends MySLWTActivity{
      * This method creates a new button for a saved memo and labels the button with the memo index.
      * The memo index is an integer ascending as a new memo is being saved.
      *
-     * @param rl         the relative layout the butten is to be placed in
+     * @param n          index of the text entry in {@code textArray}
+     * @param rl         the relative layout the button is to be placed in
      * @param scrollView ???
      * @param relative   ???
      * @return {@code true}, if the button was successfully created
@@ -497,7 +574,7 @@ public class MemoActivity extends MySLWTActivity{
                 String s = String.valueOf(btn.getText());
                 String substring = s.substring(s.length()-1);
                 System.out.println(substring);
-                int position = Integer.parseInt(substring);
+                int position = Integer.parseInt(substring)-1;
 
                 Toast.makeText(MemoActivity.this, textArray.get(position), Toast.LENGTH_SHORT).show();
             }

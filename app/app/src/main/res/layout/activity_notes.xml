@@ -13,7 +13,8 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="5dp"
         android:textSize="20sp"
-        android:hint="hier ist Platz für Notizen..." />
+        android:hint="hier ist Platz für Notizen..."
+        android:textIsSelectable="true" />
 
     <Button
         android:id="@+id/buttonBackNotes"
