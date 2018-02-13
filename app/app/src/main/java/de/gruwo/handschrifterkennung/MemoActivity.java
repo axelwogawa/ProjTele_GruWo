@@ -519,7 +519,7 @@ public class MemoActivity extends MySLWTActivity{
         }else{
             memoString = String.valueOf(label.getText()) + "\n" + widget.getText();
         }
-        textArray.add(this.textArray.size()-1, memoString);
+        textArray.add(memoString);
         return memoString;
     }
     
