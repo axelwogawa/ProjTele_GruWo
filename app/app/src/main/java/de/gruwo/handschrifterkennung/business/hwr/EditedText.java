@@ -8,6 +8,10 @@ import java.util.List;
 /**
  * This class is intended to be instanciated by a handwriting recognition widget. It holds the
  * result and state of the handwritten text being input into the widget.
+ * (Update: In fact, it only duplicates functionality which is already included in the widget API.
+ * However, it wasn't removed from the code. This is because: On the one hand for convenience
+ * reasons (the duplication only turned out after this class already had been implemented and
+ * integrated into the code) and on the other hand to show how this functionality works in detail.)
  */
 public class EditedText {
 

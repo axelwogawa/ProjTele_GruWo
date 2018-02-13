@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,9 +20,8 @@ import com.myscript.atk.sltw.SingleLineWidgetApi;
 
 import java.util.ArrayList;
 
-import de.gruwo.handschrifterkennung.business.hwr.EditedText;
 
-
+//TODO: add some description, if you like
 /**
  * The type Main activity.
  */
@@ -59,7 +57,7 @@ public class MainActivity extends MySLWTActivity{
         this.widget = (SingleLineWidget) findViewById(R.id.singleLine_widget);
 
 
-
+        //"Eingabe"_Button: switch to MainActivity
         //disable button initially
         toggleButton.setEnabled(false);
         //on click change mode
@@ -75,6 +73,7 @@ public class MainActivity extends MySLWTActivity{
          });
 
 
+        //"Notizen"-Button: switch to MemoActivity
         //disable button initially
         toggleMemo.setEnabled(true);
         //on click change mode
@@ -90,12 +89,13 @@ public class MainActivity extends MySLWTActivity{
         });
 
 
+        //"Übernehmen"-Button: Send text from widget to "zuletzt verwendet" list (and to other
+        // application in the future)
         inheritButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 if(editedText.getText().equals("")){
                     Toast.makeText(MainActivity.this, "Es gab keine Eingabe.", Toast.LENGTH_LONG).show();
                 }else {
-
                     //insert in array to show in list
                     arrayListLastItem.add(0, String.valueOf(editedText.getText()));
                     //delete the last item of the arraylist
@@ -114,6 +114,7 @@ public class MainActivity extends MySLWTActivity{
         });
 
 
+        //TODO: add short description
         memoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 Intent serverIntent = new Intent(getApplicationContext(),MemoActivity.class);
@@ -122,6 +123,7 @@ public class MainActivity extends MySLWTActivity{
         });
 
 
+        //"←"-Button: delete character left to the cursor in MyScript SingleLineWidget
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 removeCharacter(widget);
@@ -129,6 +131,7 @@ public class MainActivity extends MySLWTActivity{
         });
 
 
+        //"Alles löschen"-Button: Clear widget and label
         clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 widget.clear();
@@ -136,11 +139,13 @@ public class MainActivity extends MySLWTActivity{
         });
 
 
+        //"Leerzeichen"-Button: Insert whitespace at cursor position in MyScript SingleLineWidget
         blankButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 insertWhitespace(widget);
             }
         });
+
 
         // add 12 items to arrayListLastItem
         for(int i=0; i<=11; i++){
@@ -168,6 +173,7 @@ public class MainActivity extends MySLWTActivity{
     }
 
 
+    //TODO: A little documentation
     @Override
     public void onItemClick(AdapterView<?> lV, View view, int pos, long id){
         String newWord;
@@ -239,6 +245,7 @@ public class MainActivity extends MySLWTActivity{
         //add elements to arraylistoffer
         this.arrayListOffer = getCandidateStrings(widget);
 
+        //TODO: Warum wird das selbe in updateListOffer() unmittelbar danach nochmal ausgeführt?
         this.adapterOffer = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, this.arrayListOffer);
         this.listViewOffer.setAdapter(this.adapterOffer);
         this.listViewOffer.setOnItemClickListener(this);
@@ -250,6 +257,14 @@ public class MainActivity extends MySLWTActivity{
     }
 
 
+    @Override
+    public void onSingleTapGesture(SingleLineWidgetApi widget, int index){
+        super.onSingleTapGesture(widget, index);
+        updateListOffer();
+    }
+
+
+    //TODO: siehe MySLTWActivity updateListOfferNotes()
     /**
      * This method is called when the listview with offers has to be updated.
      */
@@ -261,6 +276,8 @@ public class MainActivity extends MySLWTActivity{
             this.arrayListOffer.add("");
         }
 
+        //TODO: Reicht es nicht, Adapter einmal in onCreate zu definieren und zu setzen statt dies
+        // jedes Mal neu zu tun?
         this.adapterOffer = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, this.arrayListOffer){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -268,14 +285,11 @@ public class MainActivity extends MySLWTActivity{
 
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
 
-                /*YOUR CHOICE OF COLOR*/
                 textView.setTextColor(Color.LTGRAY);
 
                 return view;
             }
         };
-
-
         this.listViewOffer.setAdapter(this.adapterOffer);
         this.listViewOffer.setOnItemClickListener(this);
     }

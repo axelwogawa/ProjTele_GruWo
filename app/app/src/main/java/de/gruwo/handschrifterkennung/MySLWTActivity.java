@@ -19,7 +19,6 @@ import com.myscript.atk.sltw.SingleLineWidgetApi;
 import com.myscript.atk.text.CandidateInfo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import de.gruwo.handschrifterkennung.business.hwr.EditedText;
@@ -48,17 +47,21 @@ public class MySLWTActivity
 //        ,SingleLineWidgetApi.OnPenMoveListener
 //        ,SingleLineWidgetApi.OnPenUpListener
 {
-
     //TODO: make attributes public or private
     ArrayList<String> arrayListLastItem = new ArrayList<String>();
     protected SingleLineWidgetApi widget;
     public EditedText editedText;
-    public static final String TAG = "GruWo_HWR";
-
     private ListView listViewOffer;
     ArrayList<String> arrayListOffer = new ArrayList<>();
     ArrayAdapter adapterOffer = null;
 
+    private boolean dontMoveCursor;
+
+    public static final String TAG = "GruWo_HWR";
+
+
+
+//Android onEvent methods
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +79,24 @@ public class MySLWTActivity
 
     @Override
     public void onItemClick(AdapterView<?> lV, View view, int pos, long id){
-        Toast.makeText(this, "Eintrag " + arrayListLastItem.get(pos) + " ausgewählt", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Eintrag " + arrayListLastItem.get(pos) + " ausgewählt",
+                Toast.LENGTH_SHORT).show();
     }
 
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+
+    /**
+     * handle pressing button with alert dialog if connected(non-Javadoc)
+     * @see android.app.Activity#onBackPressed()
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
 
@@ -140,27 +154,24 @@ public class MySLWTActivity
     @Override
     public void onTextChanged(SingleLineWidgetApi widget, String s, boolean intermediate)
     {
+        Log.i(this.TAG, "Single Line Widget recognition: " + widget.getText());
+        Log.i(this.TAG, "Cursor Index: " + new Integer(widget.getCursorIndex()).toString());
+
         this.editedText.setIntermediate(intermediate);
         this.editedText.setText(s);
 
-        widget.setCursorIndex(widget.getText().length());
-
-
-        Log.i(this.TAG, "#########################################");
-        Log.i(this.TAG, "Single Line Widget recognition: " + widget.getText());
-        Log.i(this.TAG, "Passed Text: " + s);
-        Log.i(this.TAG, "Intermediate: " + intermediate);
-        Log.i(this.TAG, "Word List: " + Arrays.toString(this.editedText.getWordArray()));
-        //Log.i(this.TAG, "Word List Size: " + this.editedText.getWordArray().length);
-
-        Log.i(this.TAG, "Cursor Index: " + new Integer(widget.getCursorIndex()).toString());
-        Log.i(this.TAG, "Selection Index: " +
-                new Integer(widget.getSelectionIndex()).toString());
+        if (this.dontMoveCursor == false){
+            widget.setCursorIndex(widget.getText().length());
+        }
+        if (this.editedText.getIntermediate() == false) {
+            this.dontMoveCursor = false;
+        }
     }
 
 
     /**
-     * This method is called as soon as the MyScript SingleLineWidget recognises a single tap.
+     * This method is called as soon as the MyScript SingleLineWidget recognises a single tap. It
+     * moves the cursor to the tap location.
      *
      */
     @Override
@@ -169,7 +180,6 @@ public class MySLWTActivity
         Toast.makeText(getApplicationContext(), "Single tap gesture detected at index=" +
                     index, Toast.LENGTH_SHORT).show();
         widget.setCursorIndex(index);
-//        this.widget.selectWord();
     }
 
 
@@ -324,7 +334,7 @@ public class MySLWTActivity
         ArrayList<String> arrayListLabels = new ArrayList<>();
         Log.d(TAG, "Selected Label: " + selectedLabel);
         List<String> labels = candidates.getLabels();
-        Log.d(TAG, "All possible Labels: ");
+        Log.d(TAG, "Alternative candidates: ");
         for(int i=0; i < labels.size(); i++){
             Log.d(TAG, labels.get(i));
             arrayListLabels.add(labels.get(i));
@@ -350,8 +360,8 @@ public class MySLWTActivity
         if (candidateIndex > 0
                 && (candidateIndex == widget.getText().length()
                 || widget.getText().charAt(candidateIndex) == ' '
-        )
                 )
+            )
         {
             //if cursor is at a word's end, select this word by decrementing the selection index
             candidateIndex--;
@@ -370,8 +380,9 @@ public class MySLWTActivity
         int cursorIndex = widget.getCursorIndex();
         if (widget.getText().length() == 0 || cursorIndex == 0)
             return;
-        //TODO: check, if indices are set correctly to only remove the character left to the cursor
         widget.replaceCharacters(cursorIndex-1, cursorIndex, null);
+        widget.setCursorIndex(widget.getCursorIndex()-1);
+        this.dontMoveCursor = true;
     }
 
 
@@ -389,6 +400,8 @@ public class MySLWTActivity
         if (candidates.getStart() < 0 || candidates.getEnd() <= candidates.getStart())
             return;
         widget.replaceCharacters(candidates.getStart(), candidates.getEnd(), newWord);
+        widget.setCursorIndex(candidates.getStart()+newWord.length());
+        this.dontMoveCursor = true;
     }
 
 
@@ -399,6 +412,8 @@ public class MySLWTActivity
      */
     public void insertWhitespace(SingleLineWidgetApi widget){
         widget.replaceCharacters(widget.getCursorIndex(), widget.getCursorIndex(), " ");
+        widget.setCursorIndex(widget.getCursorIndex()+1);
+        this.dontMoveCursor = true;
     }
 
 
@@ -411,18 +426,52 @@ public class MySLWTActivity
     public void insertString(SingleLineWidgetApi widget, String s){
         //insert the new word
         widget.replaceCharacters(widget.getCursorIndex(), widget.getCursorIndex(), s);
+        widget.setCursorIndex(widget.getCursorIndex()+s.length());
+        this.dontMoveCursor = true;
     }
 
 
-    /**
-     * handle pressing button with alert dialog if connected(non-Javadoc)
-     * @see android.app.Activity#onBackPressed()
-     */
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    //TODO: entscheiden, ob entweder der gesamte Code von MainActivity's updateListOffers() und
+    // MemoActivity's updateListOfferNotes() hierher verschoben wird oder diese Methode entfernt
+    // werden kann
+    //TODO: Javadoc, if this method is really needed
+    private void updateListOfferNotes(ListView listOffer, ArrayList<String> arrayListOffer, ArrayAdapter adapterOffer, SingleLineWidget widget){
+        //clear the current arrayListOffer
+        arrayListOffer.clear();
+
+        //arrayListLastItem 2 Elemente hinzufügen
+        if(editedText.getText().equals("")){
+            for(int i=0; i<=2; i++){
+                arrayListOffer.add("");
+            }
+        }else{
+            arrayListOffer = getCandidateStrings(widget);
+        }
+
+
+        //Referenz auf die View besorgen
+        //TODO: keine festen IDs in dieser Superklasse
+        adapterOffer = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayListOffer){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
+
+                //TODO: keine festen IDs in dieser Superklasse
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+                textView.setTextColor(Color.BLACK);
+
+                return view;
+            }
+        };
+
+        listViewOffer.setAdapter(adapterOffer);
+        listViewOffer.setOnItemClickListener(this);
     }
 
+
+
+//MyScript widget settings
 
     /**
      * Configures the MyScript SingleLineTextWidget, which includes certificate check, setting
@@ -431,7 +480,8 @@ public class MySLWTActivity
      * @param widget the MyScript SingleLineWidget
      */
     public void configureWidget(SingleLineWidgetApi widget){
-        //the following code was taken from MyScript Single Line Text Widged documentation
+        //large parts of the following code were taken from MyScript Single Line Text Widged
+        //documentation
         //url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html
         //CITATION_START
         if (!this.widget.registerCertificate(MyCertificate.getBytes()))
@@ -498,43 +548,9 @@ public class MySLWTActivity
         this.widget.setScrollbarResource(R.drawable.sltw_scrollbar_xml);
         this.widget.setScrollbarBackgroundResource(R.drawable.sltw_scrollbar_background);
         this.widget.setScrollbarMaskResource(R.drawable.sltw_scrollbar_mask);
-//        this.widget.setWritingAreaBackgroundResource(R.drawable.sltw_bg_pattern);
         this.widget.setWritingAreaBackgroundColor(-Integer.parseInt("ffffff", 16) +
                 Integer.parseInt("f0f0f0", 16));
         this.widget.setCursorResource(R.drawable.sltw_text_cursor_holo_light);
-    }
-
-
-    private void updateListOfferNotes(ListView listOffer, ArrayList<String> arrayListOffer, ArrayAdapter adapterOffer, SingleLineWidget widget){
-        //clear the current arrayListOffer
-        arrayListOffer.clear();
-
-        //arrayListLastItem 2 Elemente hinzufügen
-        if(editedText.getText().equals("")){
-            for(int i=0; i<=2; i++){
-                arrayListOffer.add("");
-            }
-        }else{
-            arrayListOffer = getCandidateStrings(widget);
-        }
-
-
-        //Referenz auf die View besorgen
-        adapterOffer = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayListOffer){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view =super.getView(position, convertView, parent);
-
-                TextView textView=(TextView) view.findViewById(android.R.id.text1);
-
-                textView.setTextColor(Color.BLACK);
-
-                return view;
-            }
-        };
-
-        listViewOffer.setAdapter(adapterOffer);
-        listViewOffer.setOnItemClickListener(this);
     }
 
 
