@@ -277,9 +277,6 @@ public class MainActivity extends MySLWTActivity{
             this.arrayListOffer = getCandidateStrings(widget);
         }
 
-        //TODO: Reicht es nicht, Adapter einmal in onCreate zu definieren und zu setzen statt dies
-        // jedes Mal neu zu tun?
-        //nee, weil hier die entsprechende Methode direkt angehangen wird -> funktioniert sonst nicht -> hab ich ausprobiert
         this.adapterOffer = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, this.arrayListOffer){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {

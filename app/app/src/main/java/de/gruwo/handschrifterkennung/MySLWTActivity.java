@@ -47,8 +47,7 @@ public class MySLWTActivity
 //        ,SingleLineWidgetApi.OnPenMoveListener
 //        ,SingleLineWidgetApi.OnPenUpListener
 {
-    //TODO: make attributes public or private
-    ArrayList<String> arrayListLastItem = new ArrayList<String>();
+    private ArrayList<String> arrayListLastItem = new ArrayList<String>();
     protected SingleLineWidgetApi widget;
     public EditedText editedText;
 
@@ -392,7 +391,6 @@ public class MySLWTActivity
      * @param widget the MyScript SingleLineWidget
      */
     public void replaceWord(SingleLineWidgetApi widget, String newWord){
-        //TODO: check, if indices are set correctly to replace the complete word but nothing else
         CandidateInfo candidates = this.getCurrentCandidateInfo(widget);
         if (candidates.getStart() < 0 || candidates.getEnd() <= candidates.getStart())
             return;
