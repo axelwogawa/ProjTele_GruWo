@@ -28,15 +28,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-//TODO: some documentation
 /**
+ * The user can use this activity to add some notice of his work. The notes are saved in an extra file you can get outside of the app.
+ * The description can be longer than one line. For this case there is the "Übernahme"-Button. The text in the widget would be transfer in the text label above.
+ * After saving both entries would be merged.
  * Created by bi on 24.11.17.
  */
 
 public class MemoActivity extends MySLWTActivity{
-    //TODO: make attributes public or private
     //request code
-    final int REQUEST_SETUP_BT_CONNECTION = 1;
+    private final int REQUEST_SETUP_BT_CONNECTION = 1;
 
     private int textSelectionStart, textSelectionEnd;
     private final ArrayList<Integer> ids;
@@ -52,14 +53,8 @@ public class MemoActivity extends MySLWTActivity{
 
     protected TextView label;
 
-    //TODO: remove if no longer required
-    //um letzte Zeile zurück ins Widget zu holen
-//    private String lastRow, otherText,
+    //to get the last column which was added to the label to hold it back in the widget
     private String selectedText;
-
-    //TODO: remove if no longer required
-    //maximum number of memos to save
-//    private int MAX_NUM_MEMOS = 10;
 
 
 
@@ -77,7 +72,6 @@ public class MemoActivity extends MySLWTActivity{
         ids.add(7, R.id.button_Memo8);
         ids.add(8, R.id.button_Memo9);
         ids.add(9, R.id.button_Memo10);
-//        ids.add(9, R.id.button_Memo11);
     }
 
 
@@ -86,7 +80,6 @@ public class MemoActivity extends MySLWTActivity{
         setContentView(R.layout.activity_notes);
 
         //initialize
-        final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         final RelativeLayout relative = (RelativeLayout) findViewById(R.id.rl_notes);
         final ImageButton deleteNotesButton = (ImageButton) findViewById(R.id.buttonDeleteNotes);
         final Button backButtonNotes = (Button) findViewById(R.id.buttonBackNotes);
@@ -107,11 +100,6 @@ public class MemoActivity extends MySLWTActivity{
 
         this.textSelectionStart = 0;
         this.textSelectionEnd = 0;
-
-
-        //TODO: remove if no longer required
-//        lastRow = "";
-//        otherText = "";
 
         //initialize textArray
         this.textArray = new ArrayList<>();
@@ -191,12 +179,7 @@ public class MemoActivity extends MySLWTActivity{
                 }else if(textArray.size() <= 10) {
                     String memoString = saveMemoArray(label);
                     saveMemoFile(memoString);
-                    createNewMemoButton(textArray.size()-1, rl, scrollView, relative);
-
-                    //TODO: remove if no longer required
-                    //label-Instanzen zurücksetzen
-//                    lastRow="";
-//                    otherText="";
+                    createNewMemoButton(textArray.size()-1, rl, relative);
 
                     //clear the widget (otherwise the old text is used)
                     editedText.setText("");
@@ -208,8 +191,7 @@ public class MemoActivity extends MySLWTActivity{
                     editMode = false;
                     updateListOfferNotes();
                 }else{
-                    Toast.makeText(MemoActivity.this, "Leider kein Speicher mehr frei.",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MemoActivity.this, "Leider kein Speicher mehr frei.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -218,31 +200,15 @@ public class MemoActivity extends MySLWTActivity{
         //"Übernehmen"-Button: Send text from widget to label as new line, clear widget
         saveBetweenButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                //TODO: remove if no longer required
-//                String text="";
                 if (editMode){
                     String newText = String.valueOf(label.getText());
                     newText = newText.substring(0, textSelectionStart) + widget.getText()
                             + newText.substring(textSelectionStart+1);
                     label.setText(newText);
                 } else if(String.valueOf(label.getText()).equals("")){
-                    //inherit the text from the widget (SingleLineWidget) to the label above the
-                    // widget
-//                    label.setText(widget.getText());
                     label.append(widget.getText());
-//                    lastRow = widget.getText();
                 }else{
                     label.append("\n"+widget.getText());
-
-                    //TODO: remove if no longer required
-//                    text = String.valueOf(label.getText());
-//                    otherText = text;
-
-                    //neue Zeile hinzufügen
-//                    text = text + " " + widget.getText();
-//                    label.setText(text);
-//                    lastRow = widget.getText();
-
                 }
 
                 editedText.setText("");
@@ -292,12 +258,9 @@ public class MemoActivity extends MySLWTActivity{
         //"Zurückholen"_Button: retrieve selected text from text label (over widget) back to widget
         holdBackButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                //TODO: remove if no longer required
-//                if(lastRow.equals("")){
                 if (editMode){
                     //abort retrieval procedure, if some selected text is already being edited
-                    Toast.makeText(MemoActivity.this, "Nur einmal Zurückholen möglich.",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MemoActivity.this, "Nur einmal Zurückholen möglich.", Toast.LENGTH_SHORT).show();
                 }else{
                     //block text selection and retrieval
                     editMode = true;
@@ -323,12 +286,6 @@ public class MemoActivity extends MySLWTActivity{
 
                     //set text in widget
                     widget.setText(editText);
-
-                    //TODO: remove if no longer required
-                    //clear label
-//                    label.setText(otherText);
-                    //nur einmal zurückholen möglich
-//                    lastRow="";
                 }
             }
         });
@@ -365,8 +322,9 @@ public class MemoActivity extends MySLWTActivity{
         });
 
 
-        //TODO: short description
-        //change tab -> user press the insert button
+        //this method open a new activity after pressing the Insert-Tab Button
+        //"Eingabe"-Button: open the MainActivity (again)
+        //disable the insertButton and enable the memoButton
         insertButtonNotes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 //save the old data from the activity (don't create a new one)
@@ -380,7 +338,7 @@ public class MemoActivity extends MySLWTActivity{
 
         //create button for each memo that was found
         for (int i = 0; i < this.textArray.size(); i++){
-            createNewMemoButton(i, rl, scrollView, relative);
+            createNewMemoButton(i, rl, relative);
         }
     }
 
@@ -390,30 +348,6 @@ public class MemoActivity extends MySLWTActivity{
         super.onBackPressed();
     }
 
-
-    //TODO: remove if no longer required
-   /* @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String newWord;
-
-        if(parent.getId() == R.id.listViewOfferNotes){
-            if(this.arrayListOfferNotes.get(position).equals("")){
-                //do nothing
-                Toast.makeText(this,  "kein Eintrag vorhanden", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(this,  this.arrayListOfferNotes.get(position) + " ausgewählt.", Toast.LENGTH_SHORT).show();
-            }
-
-
-            //change the word in the widget
-            newWord = this.arrayListOfferNotes.get(position);
-            this.replaceWord(this.widget, newWord);
-
-        }else{
-            Toast.makeText(this, "Keine Liste ausgewählt.", Toast.LENGTH_SHORT).show();
-        }
-    }
-*/
 
 
     @Override
@@ -431,7 +365,6 @@ public class MemoActivity extends MySLWTActivity{
     }
 
 
-    //TODO: siehe MySLTWActivity updateListOfferNotes()
     /**
      * This method is called when the listview with offers has to be updated.
      */
@@ -575,20 +508,17 @@ public class MemoActivity extends MySLWTActivity{
     }
 
 
-    //TODO add info to scrollView and relative (what's the difference between rl and relative?)
     /**
      * This method creates a new button for a saved memo and labels the button with the memo index.
      * The memo index is an integer ascending as a new memo is being saved.
      *
      * @param n          index of the text entry in {@code textArray}
      * @param rl         the relative layout the button is to be placed in
-     * @param scrollView ???
-     * @param relative   ???
+     * @param relative   the relative layout the other relative layout (with the memo buttons) is to be placed in
      * @return {@code true}, if the button was successfully created
      */
     public boolean createNewMemoButton(int n,
                                        RelativeLayout rl,
-                                       ScrollView scrollView,
                                        RelativeLayout relative){
         //create a new button
         Button btn = new Button(MemoActivity.this);
@@ -617,8 +547,6 @@ public class MemoActivity extends MySLWTActivity{
                 String substring = s.substring(s.length()-1);
                 int position = Integer.parseInt(substring)-1;
 
-//                Toast.makeText(MemoActivity.this, textArray.get(position),
-//                        Toast.LENGTH_SHORT).show();
                 label.setText(textArray.get(position));
                 editedText.setText("");
                 widget.clear();
@@ -632,8 +560,6 @@ public class MemoActivity extends MySLWTActivity{
         //add button to view
         rl.addView(btn);
         rl.invalidate();
-
-        scrollView.invalidate();
         relative.invalidate();
 
         return true;
@@ -668,8 +594,7 @@ public class MemoActivity extends MySLWTActivity{
                 //change the word in the widget
                 this.replaceWord(this.widget, newWord);
             }else{
-                Toast.makeText(MemoActivity.this, "Kein Label angeklickt.",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(MemoActivity.this, "Kein Label angeklickt.", Toast.LENGTH_SHORT).show();
             }
     }
 

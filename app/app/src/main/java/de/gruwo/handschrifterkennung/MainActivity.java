@@ -21,9 +21,10 @@ import com.myscript.atk.sltw.SingleLineWidgetApi;
 import java.util.ArrayList;
 
 
-//TODO: add some description, if you like
 /**
- * The type Main activity.
+ * This activity is the main activity. The user can insert some data for an (complex) unit which is continue processing these data.
+ * There are two lists. The list right beside the widget is filled with the last entries you saved (for faster access if you need it again)
+ * and the list below the widget is if the word, which is identified, is not that you want to write.
  */
 public class MainActivity extends MySLWTActivity{
 
@@ -114,7 +115,10 @@ public class MainActivity extends MySLWTActivity{
         });
 
 
-        //TODO: add short description
+        //this method open a new activity after pressing the Memo-Tab Button
+        //there you can add some notices
+        //"Notizen"-Button: open the MemoActivity
+        //disable the memoButton and enable the insertButton
         memoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 Intent serverIntent = new Intent(getApplicationContext(),MemoActivity.class);
@@ -173,7 +177,9 @@ public class MainActivity extends MySLWTActivity{
     }
 
 
-    //TODO: A little documentation
+    //what happens if the user press one entry of one of the two lists ("zuletzt hinzugefügt" und "Vorschläge")
+    //get the ID of the list to get the corresponding arraylist
+    //get the position of the list to get the corresponding entry and show it as a toast
     @Override
     public void onItemClick(AdapterView<?> lV, View view, int pos, long id){
         String newWord;
@@ -242,17 +248,9 @@ public class MainActivity extends MySLWTActivity{
     @Override
     public void onTextChanged(SingleLineWidgetApi widget, String s, boolean intermediate){
         super.onTextChanged(widget, s, intermediate);
-        //add elements to arraylistoffer
-        this.arrayListOffer = getCandidateStrings(widget);
 
-        //TODO: Warum wird das selbe in updateListOffer() unmittelbar danach nochmal ausgeführt?
-        this.adapterOffer = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, this.arrayListOffer);
-        this.listViewOffer.setAdapter(this.adapterOffer);
-        this.listViewOffer.setOnItemClickListener(this);
-
-        if(editedText.getText().equals("")){
-            updateListOffer();
-        }
+        //update the listOffer-View
+        updateListOffer();
 
     }
 
@@ -264,20 +262,24 @@ public class MainActivity extends MySLWTActivity{
     }
 
 
-    //TODO: siehe MySLTWActivity updateListOfferNotes()
     /**
      * This method is called when the listview with offers has to be updated.
      */
     private void updateListOffer(){
         //update the listview with offers
-
-        //add elements to arraylistoffer
-        for(int i= 0; i<3; i++){
-            this.arrayListOffer.add("");
+        if(editedText.getText().equals("")){
+            //add elements to arraylistoffer
+            for(int i= 0; i<3; i++){
+                this.arrayListOffer.add("");
+            }
+        }else{
+            //add elements to listOffer
+            this.arrayListOffer = getCandidateStrings(widget);
         }
 
         //TODO: Reicht es nicht, Adapter einmal in onCreate zu definieren und zu setzen statt dies
         // jedes Mal neu zu tun?
+        //nee, weil hier die entsprechende Methode direkt angehangen wird -> funktioniert sonst nicht -> hab ich ausprobiert
         this.adapterOffer = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, this.arrayListOffer){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {

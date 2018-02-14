@@ -109,43 +109,20 @@
         android:ems="10"
         android:hint="Text eingeben..." />
 
-    <!--<ListView
-        android:id="@+id/listViewOfferNotes"
-        android:layout_width="750dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="480dp"
-        android:fadeScrollbars="false"/>
-
--->
 
 
-    <ScrollView
-        android:id="@+id/scrollView"
+    <RelativeLayout
+        android:id="@+id/relativeLayout_notes"
         android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@id/button_save"
-        android:layout_alignParentTop="true"
-        android:isScrollContainer="true">
+        android:layout_alignParentTop="true">
 
 
+    </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/relativeLayout_notes"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-
-            </RelativeLayout>
-
-
-    </ScrollView>
 
     <Button
         android:id="@+id/button_holdBack"

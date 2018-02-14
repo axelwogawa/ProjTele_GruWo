@@ -52,19 +52,6 @@
         android:textStyle="bold"
         android:text="Vorschläge:" />
 
-   <!-- <EditText
-        android:id="@+id/editTextInsert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textViewOffer"
-        android:layout_alignLeft="@+id/textViewOffer"
-        android:layout_alignStart="@+id/textViewOffer"
-        android:layout_marginBottom="62dp"
-        android:layout_marginLeft="34dp"
-        android:layout_marginStart="34dp"
-        android:ems="10"
-        android:hint="Text eingeben..."
-        android:inputType="textPersonName" />-->
 
     <!-- The following element was taken from MyScript Single Line Text Widged documentation;
     url: https://developer.myscript.com/old-docs/atk/2.2/android/text/sltw.html

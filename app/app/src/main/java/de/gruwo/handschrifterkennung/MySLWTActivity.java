@@ -51,9 +51,6 @@ public class MySLWTActivity
     ArrayList<String> arrayListLastItem = new ArrayList<String>();
     protected SingleLineWidgetApi widget;
     public EditedText editedText;
-    private ListView listViewOffer;
-    ArrayList<String> arrayListOffer = new ArrayList<>();
-    ArrayAdapter adapterOffer = null;
 
     private boolean dontMoveCursor;
 
@@ -428,45 +425,6 @@ public class MySLWTActivity
         widget.replaceCharacters(widget.getCursorIndex(), widget.getCursorIndex(), s);
         widget.setCursorIndex(widget.getCursorIndex()+s.length());
         this.dontMoveCursor = true;
-    }
-
-
-    //TODO: entscheiden, ob entweder der gesamte Code von MainActivity's updateListOffers() und
-    // MemoActivity's updateListOfferNotes() hierher verschoben wird oder diese Methode entfernt
-    // werden kann
-    //TODO: Javadoc, if this method is really needed
-    private void updateListOfferNotes(ListView listOffer, ArrayList<String> arrayListOffer, ArrayAdapter adapterOffer, SingleLineWidget widget){
-        //clear the current arrayListOffer
-        arrayListOffer.clear();
-
-        //arrayListLastItem 2 Elemente hinzufügen
-        if(editedText.getText().equals("")){
-            for(int i=0; i<=2; i++){
-                arrayListOffer.add("");
-            }
-        }else{
-            arrayListOffer = getCandidateStrings(widget);
-        }
-
-
-        //Referenz auf die View besorgen
-        //TODO: keine festen IDs in dieser Superklasse
-        adapterOffer = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayListOffer){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view =super.getView(position, convertView, parent);
-
-                //TODO: keine festen IDs in dieser Superklasse
-                TextView textView=(TextView) view.findViewById(android.R.id.text1);
-
-                textView.setTextColor(Color.BLACK);
-
-                return view;
-            }
-        };
-
-        listViewOffer.setAdapter(adapterOffer);
-        listViewOffer.setOnItemClickListener(this);
     }
 
 
