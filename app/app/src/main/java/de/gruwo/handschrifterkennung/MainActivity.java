@@ -161,11 +161,8 @@ public class MainActivity extends MySLWTActivity{
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
-
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
-
                 textView.setTextColor(Color.LTGRAY);
-
                 return view;
             }
         };
@@ -176,10 +173,11 @@ public class MainActivity extends MySLWTActivity{
         updateListOffer();
     }
 
-
-    //what happens if the user press one entry of one of the two lists ("zuletzt hinzugefügt" und "Vorschläge")
-    //get the ID of the list to get the corresponding arraylist
-    //get the position of the list to get the corresponding entry and show it as a toast
+    /**
+     * what happens if the user press one entry of one of the two lists ("zuletzt hinzugefügt" und "Vorschläge");
+     * get the ID of the list to get the corresponding arraylist;
+     * get the position of the list to get the corresponding entry and show it as a toast.
+     **/
     @Override
     public void onItemClick(AdapterView<?> lV, View view, int pos, long id){
         String newWord;
@@ -192,7 +190,6 @@ public class MainActivity extends MySLWTActivity{
                 Toast.makeText(this,  this.arrayListLastItem.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
             }
 
-
             //change the word in the widget
             newWord = this.arrayListLastItem.get(pos);
             this.insertString(this.widget, newWord);
@@ -204,7 +201,6 @@ public class MainActivity extends MySLWTActivity{
             }else{
                 Toast.makeText(this,  this.arrayListOffer.get(pos) + " ausgewählt.", Toast.LENGTH_SHORT).show();
             }
-
 
             //change the word in the widget
             newWord = this.arrayListOffer.get(pos);
@@ -251,7 +247,6 @@ public class MainActivity extends MySLWTActivity{
 
         //update the listOffer-View
         updateListOffer();
-
     }
 
 
@@ -281,11 +276,8 @@ public class MainActivity extends MySLWTActivity{
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
-
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
-
                 textView.setTextColor(Color.LTGRAY);
-
                 return view;
             }
         };

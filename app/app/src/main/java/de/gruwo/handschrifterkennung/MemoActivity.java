@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -32,9 +31,7 @@ import java.util.ArrayList;
  * The user can use this activity to add some notice of his work. The notes are saved in an extra file you can get outside of the app.
  * The description can be longer than one line. For this case there is the "Übernahme"-Button. The text in the widget would be transfer in the text label above.
  * After saving both entries would be merged.
- * Created by bi on 24.11.17.
  */
-
 public class MemoActivity extends MySLWTActivity{
     //request code
     private final int REQUEST_SETUP_BT_CONNECTION = 1;
@@ -234,7 +231,6 @@ public class MemoActivity extends MySLWTActivity{
                 textSelectionEnd = 0;
                 editMode = false;
                 updateListOfferNotes();
-
             }
         });
 

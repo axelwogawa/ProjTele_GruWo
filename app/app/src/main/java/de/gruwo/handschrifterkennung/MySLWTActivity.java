@@ -1,17 +1,12 @@
 package de.gruwo.handschrifterkennung;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myscript.atk.sltw.SingleLineWidget;
@@ -26,7 +21,8 @@ import de.gruwo.handschrifterkennung.certificate.MyCertificate;
 
 
 /**
- * Created by axel on 17.01.18.
+ * The super class of MainActivity and MemoActivity containing common functionality: Widget
+ * config, widget gesture listeners, word candidates handling, text manipulation methods.
  */
 
 public class MySLWTActivity
@@ -151,7 +147,7 @@ public class MySLWTActivity
     public void onTextChanged(SingleLineWidgetApi widget, String s, boolean intermediate)
     {
         Log.i(this.TAG, "Single Line Widget recognition: " + widget.getText());
-        Log.i(this.TAG, "Cursor Index: " + new Integer(widget.getCursorIndex()).toString());
+        Log.d(this.TAG, "Cursor Index: " + new Integer(widget.getCursorIndex()).toString());
 
         this.editedText.setIntermediate(intermediate);
         this.editedText.setText(s);
@@ -352,7 +348,7 @@ public class MySLWTActivity
      * SingleLineWidget Docs</a>
      */
     public CandidateInfo getCurrentCandidateInfo(SingleLineWidgetApi widget){
-        int candidateIndex = widget.getCursorIndex();
+        int candidateIndex = Math.min(widget.getCursorIndex(), widget.getText().length());
         if (candidateIndex > 0
                 && (candidateIndex == widget.getText().length()
                 || widget.getText().charAt(candidateIndex) == ' '
@@ -508,6 +504,4 @@ public class MySLWTActivity
                 Integer.parseInt("f0f0f0", 16));
         this.widget.setCursorResource(R.drawable.sltw_text_cursor_holo_light);
     }
-
-
 }
